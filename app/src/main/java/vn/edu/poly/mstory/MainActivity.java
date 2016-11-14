@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     AdapterRecyclerView adapter;
     List<String> data;
 
-    String androidListViewStrings[] = {"Truyá»‡n Kinh Dá»‹", "Truyá»‡n CÆ°á»i", "Truyá»‡n Ngá»¥ NgĂ´n", "Truyá»‡n Thiáº¿u Nhi", "Truyá»‡n NgĂ´n TĂ¬nh"};
-    ArrayList<Comics> arrComic=new ArrayList<>();
+    String androidListViewStrings[] = {"Truyện Kinh Dị", "Truyện Ngắn", "Truyện Ngụ Ngôn", "Truyện Thiếu Nhi", "Truyện Ngôn Tình"};
+    ArrayList<Comics> arrComic = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     public void onItemClickLisener(View view) {
 
     }
-    Thread t1=new Thread(new Runnable() {
+
+    Thread t1 = new Thread(new Runnable() {
         @Override
         public void run() {
             JSONParser jsonParser = new JSONParser();
@@ -62,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
     });
-    Thread t2=new Thread(new Runnable() {
+    Thread t2 = new Thread(new Runnable() {
         @Override
         public void run() {
-            Log.d("khang",arrComic.size()+"");
+            Log.d("khang", arrComic.size() + "");
             recyclerView = (RecyclerView) findViewById(R.id.recyclerViewList);
             adapter = new AdapterRecyclerView(arrComic);
 
@@ -79,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("URL", arrComic.get(4).thumbnail);
         }
     });
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.action, menu);
+        return true;
+    }
 
 
 }

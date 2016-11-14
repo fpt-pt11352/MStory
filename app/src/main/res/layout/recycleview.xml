@@ -13,14 +13,14 @@
 
     <ImageView
         android:id="@+id/imgItem"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         app:srcCompat="@mipmap/bia" />
 
     <TextView
         android:id="@+id/txtHeader"
 
-        android:layout_width="170dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:clickable="true"
 

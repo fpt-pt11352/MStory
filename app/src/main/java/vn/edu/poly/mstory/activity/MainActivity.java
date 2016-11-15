@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory;
+package vn.edu.poly.mstory.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +14,8 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.edu.poly.mstory.model.Comics;
+import vn.edu.poly.mstory.R;
+import vn.edu.poly.mstory.object.variable.Comics;
 import vn.edu.poly.mstory.object.handle.custom.AdapterRecyclerView;
 import vn.edu.poly.mstory.object.handle.custom.CustomAdapter;
 import vn.edu.poly.mstory.object.handle.json.JSONParser;

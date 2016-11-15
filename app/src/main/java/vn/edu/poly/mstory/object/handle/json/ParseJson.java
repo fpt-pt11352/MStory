@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-import vn.edu.poly.mstory.model.Comics;
+import vn.edu.poly.mstory.object.variable.Comics;
 
 /**
  * Created by vuong on 12/11/2016.

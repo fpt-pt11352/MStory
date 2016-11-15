@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.model.Comics;
+import vn.edu.poly.mstory.object.variable.Comics;
 
 /**
  * Created by ADMIN-PC on 11/12/2016.

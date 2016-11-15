@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.load;
+package vn.edu.poly.mstory.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

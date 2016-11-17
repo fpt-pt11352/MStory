@@ -1,1 +1,0 @@
-các đối tượng dùng làm "kiểu dữ liệu"

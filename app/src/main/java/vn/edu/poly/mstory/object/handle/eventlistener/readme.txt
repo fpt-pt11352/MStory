@@ -1,1 +1,0 @@
-các class thực hiện lắng nghe, bắt và xử lý các sự kiện

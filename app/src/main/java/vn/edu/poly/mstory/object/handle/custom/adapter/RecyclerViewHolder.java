@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.custom;
+package vn.edu.poly.mstory.object.handle.custom.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

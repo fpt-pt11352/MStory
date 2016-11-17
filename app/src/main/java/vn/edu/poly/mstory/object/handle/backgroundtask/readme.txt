@@ -1,1 +1,0 @@
-các class thực hiện nhiệm vụ trên nền

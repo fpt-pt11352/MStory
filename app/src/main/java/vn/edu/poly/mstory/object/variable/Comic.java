@@ -4,18 +4,18 @@ package vn.edu.poly.mstory.object.variable;
  * Created by vuong on 12/11/2016.
  */
 
-public class Comics {
+public class Comic {
 
-    public String id;
+    public int id;
     public String comicsName;
     public String kind;
     public String thumbnail;
-    public String views;
+    public int views;
     public String author;
     public String episodes;
     public String content;
 
-    public Comics(String id, String name, String kind, String thumbnail, String views, String author, String episodes, String content) {
+    public Comic(int id, String name, String kind, String thumbnail, int views, String author, String episodes, String content) {
         this.id = id;
         this.comicsName = name;
         this.kind = kind;
@@ -26,15 +26,15 @@ public class Comics {
         this.content = content;
     }
 
-    public Comics() {
+    public Comic() {
 
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,11 +62,11 @@ public class Comics {
         this.thumbnail = thumbnail;
     }
 
-    public String getViews() {
+    public int getViews() {
         return views;
     }
 
-    public void setViews(String views) {
+    public void setViews(int views) {
         this.views = views;
     }
 

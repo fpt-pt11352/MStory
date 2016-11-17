@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Nổi bật"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textStyle="bold"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="5dp"
+                android:layout_height="45dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewList"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#eeeeee"
+                android:persistentDrawingCache="none"
+                android:alwaysDrawnWithCache="false"
+                android:scrollbars="vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Danh mục"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:layout_marginTop="4dp"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="5dp"
+                android:layout_height="40dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/linear_kind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

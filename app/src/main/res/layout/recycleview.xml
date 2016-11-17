@@ -76,7 +76,7 @@
                 android:src="@drawable/book" />
 
             <TextView
-                android:id="@+id/episodes_number"
+                android:id="@+id/chapter_number"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"

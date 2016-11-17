@@ -11,7 +11,7 @@
         android:layout_height="40dp">
         <ImageView
             android:id="@+id/icon"
-            android:padding="5dp"
+            android:padding="7dp"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:src="@drawable/book"
@@ -22,6 +22,7 @@
             android:layout_width="0dp"
             android:layout_weight="15"
             android:text="abc 123"
+            android:textColor="#212121"
             android:textSize="15sp"
             android:layout_height="match_parent" />
         <TextView

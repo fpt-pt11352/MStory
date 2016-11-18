@@ -19,11 +19,12 @@ import vn.edu.poly.mstory.object.variable.Comic;
  * Created by lucius on 11/15/16.
  */
 
-public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<RecyclerviewCustomAdapter.RecyclerViewHolder>{
+public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<RecyclerviewCustomAdapter.RecyclerViewHolder> {
 
     private int[] arrImg;
     private Context context;
-    ArrayList<Comic> arrComic=new ArrayList<>();
+    ArrayList<Comic> arrComic = new ArrayList<>();
+
     public RecyclerviewCustomAdapter(ArrayList<Comic> arrComic) {
         this.arrComic = arrComic;
     }
@@ -37,10 +38,11 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        Context context = holder.imgv.getContext();
-        holder.txtHeader.setText(arrComic.get(position).comicsName);
-
-        Picasso.with(context).load(arrComic.get(position).thumbnail).error(R.mipmap.bia).resize(300,400).into(holder.imgv);
+        Context context = holder.comicImage.getContext();
+        holder.comicName.setText(arrComic.get(position).comicsName);
+        holder.viewNumber.setText(arrComic.get(position).getViews()+"");
+        holder.chapterNumber.setText(arrComic.get(position).getEpisodes()+"");
+        Picasso.with(context).load(arrComic.get(position).thumbnail).error(R.mipmap.bia).resize(300, 400).into(holder.comicImage);
 
     }
 
@@ -50,12 +52,15 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        TextView txtHeader;
-        ImageView imgv;
+        TextView comicName, viewNumber, chapterNumber;
+        ImageView comicImage;
+
         public RecyclerViewHolder(View itemView) {
             super(itemView);
-            txtHeader = (TextView) itemView.findViewById(R.id.txtHeader);
-            imgv= (ImageView) itemView.findViewById(R.id.imgItem);
+            comicName = (TextView) itemView.findViewById(R.id.txtHeader);
+            comicImage = (ImageView) itemView.findViewById(R.id.imgItem);
+            viewNumber = (TextView)itemView.findViewById(R.id.view_number);
+            chapterNumber = (TextView)itemView.findViewById(R.id.chapter_number);
         }
 
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="20"
+        android:background="#ffffff"
+        android:layout_height="40dp">
+        <ImageView
+            android:id="@+id/icon"
+            android:padding="7dp"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:src="@drawable/book"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="start|center_vertical"
+            android:id="@+id/text"
+            android:layout_width="0dp"
+            android:layout_weight="15"
+            android:text="abc 123"
+            android:textColor="#212121"
+            android:textSize="15sp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/id"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+    </LinearLayout>
+</LinearLayout>

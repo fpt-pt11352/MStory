@@ -1,0 +1,1 @@
+xử lí liên quan animation

@@ -15,7 +15,5 @@ public class MainActivity extends AppCompatActivity {
 //                    .add(R.id.fragment, new PlaceholderFragment())
 //                    .commit();
 //        }
-        // test
-
     }
 }

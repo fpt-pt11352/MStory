@@ -1,0 +1,51 @@
+package vn.edu.poly.mstory.object.handle.custom.adapter;
+
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.ScaleAnimation;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import vn.edu.poly.mstory.R;
+
+/**
+ * Created by lucius on 23/11/2016.
+ */
+
+public class ChapterListAdapter extends BaseAdapter {
+    private Activity activity;
+    private ArrayList<Integer> list;
+
+    public ChapterListAdapter(Activity activity, ArrayList<Integer> list) {
+        this.activity = activity;
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
+        view = (LayoutInflater.from(activity)).inflate(R.layout.chapter_view_item, parent, false);
+        TextView textView = ((TextView)view.findViewById(R.id.text));
+        textView.setText("Chapter "+list.get(position));
+
+        return view;
+    }
+}

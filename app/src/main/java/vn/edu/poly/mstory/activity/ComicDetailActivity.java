@@ -1,50 +1,31 @@
 package vn.edu.poly.mstory.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Base64;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
-import java.util.ArrayList;
+import org.json.JSONArray;
 
 import vn.edu.poly.mstory.R;
+import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
+import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mstory.object.handle.json.ParserJSON;
 import vn.edu.poly.mstory.object.handle.social.FacebookAPI;
+import vn.edu.poly.mstory.object.variable.Comics;
 
-public class ComicDetailActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
-    ImageView imgComicsDetail;
-    Button btnDoctruyen, btnshare, btnviews, btnComments;
-    TextView txtComicsName, txtContent;
-    private CallbackManager callbackManager;
+public class ComicDetailActivity extends AppCompatActivity implements DownloadEvent {
+    private Button btn_openComics;
     private FacebookAPI facebookAPI;
+    private boolean isShow;
+    private TextView txv_readMoreTop, txv_readMoreBottom, txv_review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,55 +36,45 @@ public class ComicDetailActivity extends AppCompatActivity implements FacebookCa
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        facebookAPI.buttonLike(
+                (LikeView) findViewById(R.id.likeView),
+                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
+//        Bundle params = new Bundle();
+//        params.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
+//        /* make the API call */
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me/og.likes",
+//                params,
+//                HttpMethod.POST,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//                        Log.e("Error1", response.toString());
+//                    }
+//                }
+//        ).executeAsync();
 
 
-        facebookAPI.createLoginButton((LoginButton) findViewById(R.id.login_button), null, new String[]{"publish_actions"}, this);
-
-        LikeView likeView = (LikeView) findViewById(R.id.likeView);
-        likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
-        likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
-        //https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492
-        //likeView.setObjectIdAndType("https://www.facebook.com/MComics-252252888524492/", LikeView.ObjectType.PAGE);
-        likeView.setObjectIdAndType("https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492", LikeView.ObjectType.PAGE);
-        likeView.setOnErrorListener(new LikeView.OnErrorListener() {
-            @Override
-            public void onError(FacebookException error) {
-                Log.e("error", error.toString());
-            }
-        });
-
-        Bundle params = new Bundle();
-        params.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-        /* make the API call */
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/og.likes",
-                params,
-                HttpMethod.POST,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("Error", response.toString());
-                    }
-                }
-        ).executeAsync();
-
-
+//        Bundle params1 = new Bundle();
+//        params1.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/935700306566899",
+//                null,
+//                HttpMethod.DELETE,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//                        Log.e("Error", response.toString());
+//                    }
+//                }
+//        ).executeAsync();
         final Intent intent = getIntent();
-//        imgComicsDetail = (ImageView) findViewById(R.id.imgComicsDetail);
-//
-//        btnshare = (Button) findViewById(R.id.btnshare);
-//
-//        btnComments = (Button) findViewById(R.id.btncomments);
-//        txtComicsName = (TextView) findViewById(R.id.txtComicsName);
-//        txtContent = (TextView) findViewById(R.id.txtContent);
-//        btnviews= (Button) findViewById(R.id.btnviews);
-//        Picasso.with(this).load(intent.getStringExtra("thumbnail")).resize(400, 500).error(R.mipmap.bia).into(imgComicsDetail);
-//        txtComicsName.setText(intent.getStringExtra("comicsName"));
-//        txtContent.setText(intent.getStringExtra("content"));
-//        btnviews.setText(intent.getStringExtra("view"));
+        LoadJsonInBackground loadJson = new LoadJsonInBackground();
+        loadJson.setOnFinishEvent(this);
+        loadJson.execute("http://grayguy.xyz/?kind=comics_detail&id=" + intent.getExtras().getString("id"));
 
-        btnDoctruyen = (Button) findViewById(R.id.btnDoctruyen);
-        btnDoctruyen.setOnClickListener(new View.OnClickListener() {
+        btn_openComics = (Button) findViewById(R.id.btnDoctruyen);
+        btn_openComics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getBaseContext(), ComicChaptersActivity.class);
@@ -111,26 +82,59 @@ public class ComicDetailActivity extends AppCompatActivity implements FacebookCa
                 startActivity(intent2);
             }
         });
+
+        txv_review = (TextView)findViewById(R.id.txv_review);
+
+        txv_readMoreTop = (TextView) findViewById(R.id.txv_readMoreTop);
+        txv_readMoreTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHideReview();
+            }
+        });
+        txv_readMoreBottom = (TextView) findViewById(R.id.txv_readMoreBottom);
+        txv_readMoreBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHideReview();
+            }
+        });
+    }
+
+    public void showHideReview() {
+        if (isShow = !isShow){
+            show();
+        }else {
+            hide();
+        }
+    }
+
+    public void show(){
+        txv_review.setMaxLines(Integer.MAX_VALUE);
+    }
+
+    public void hide(){
+        txv_review.setMaxLines(3);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        facebookAPI.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
-    public void onSuccess(LoginResult loginResult) {
-
-    }
-
-    @Override
-    public void onCancel() {
-
-    }
-
-    @Override
-    public void onError(FacebookException error) {
-
+    public void onLoadFinish(String string) {
+        try {
+            Comics comics = new ParserJSON().getComic(new JSONArray(string).getJSONObject(0));
+            Picasso.with(this).load(comics.getThumbnail()).resize(400, 600).error(R.mipmap.bia).into(((ImageView) findViewById(R.id.imv_cover)));
+            ((TextView) findViewById(R.id.txv_name)).setText(comics.getComicsName());
+            ((TextView) findViewById(R.id.txv_author)).setText(comics.getAuthor());
+            ((TextView) findViewById(R.id.txv_kinds)).setText(comics.getKind());
+            ((TextView) findViewById(R.id.txv_chapter)).setText(comics.getEpisodes());
+            ((TextView) findViewById(R.id.txv_views)).setText(comics.getViews() + "");
+            ((TextView) findViewById(R.id.txv_review)).setText(comics.getContent());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

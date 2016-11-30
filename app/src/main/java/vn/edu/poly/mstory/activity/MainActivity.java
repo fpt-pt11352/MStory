@@ -27,8 +27,8 @@ import vn.edu.poly.mstory.object.handle.custom.adapter.RecyclerviewCustomAdapter
 import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mstory.object.handle.eventlistener.OnViewCreateCallback;
 import vn.edu.poly.mstory.object.handle.json.ParserJSON;
-import vn.edu.poly.mstory.object.variable.Comic;
-import vn.edu.poly.mstory.object.variable.ComicKind;
+import vn.edu.poly.mstory.object.variable.Comics;
+import vn.edu.poly.mstory.object.variable.ComicsKind;
 
 public class MainActivity extends AppCompatActivity implements DownloadEvent {
     private Activity activity;
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
 
     public void showKindListItem(String string) throws JSONException {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linear_kind);
-        ArrayList<ComicKind> comicKindArray = new ParserJSON().getComicKindArray(string);
-        Log.e("arrsize", comicKindArray.size() + "");
-        for (int x = 0; x < comicKindArray.size(); x++) {
+        ArrayList<ComicsKind> comicsKindArray = new ParserJSON().getComicKindArray(string);
+        Log.e("arrsize", comicsKindArray.size() + "");
+        for (int x = 0; x < comicsKindArray.size(); x++) {
             View view = (LayoutInflater.from(this)).inflate(R.layout.kind_list_item_view, null, false);
-            ((TextView) view.findViewById(R.id.id)).setText(comicKindArray.get(x).getId() + "");
-            ((TextView) view.findViewById(R.id.text)).setText(comicKindArray.get(x).getKind());
+            ((TextView) view.findViewById(R.id.id)).setText(comicsKindArray.get(x).getId() + "");
+            ((TextView) view.findViewById(R.id.text)).setText(comicsKindArray.get(x).getKind());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,15 +100,15 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
 
     public void createMainFragment(View view, String string) {
         try {
-            ArrayList<Comic> comicArray = new ParserJSON().getComicArray(string);
-
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
-            RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicArray);
+            ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
             recyclerView.setLayoutManager(layoutManager);
+
+            RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicsArray);
             recyclerView.setAdapter(adapter);
 
             LoadJsonInBackground backgroundTask = new LoadJsonInBackground();

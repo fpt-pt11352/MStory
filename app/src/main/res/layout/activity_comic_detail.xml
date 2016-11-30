@@ -9,184 +9,237 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:paddingBottom="3dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="11">
 
             <ImageView
+                android:id="@+id/imv_cover"
                 android:layout_width="0dp"
-                android:layout_height="240dp"
-                android:layout_margin="10dp"
+                android:layout_height="210dp"
+                android:layout_margin="4dp"
                 android:layout_weight="5"
                 android:src="@mipmap/bia" />
 
-            <TableLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="5">
+                android:layout_marginTop="5dp"
+                android:layout_weight="6"
+                android:orientation="vertical">
 
                 <!--name-->
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/txv_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="No Name"
-                        android:textSize="17sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
-                </TableRow>
+                </LinearLayout>
                 <!--author-->
-                <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="15">
 
                     <TextView
                         style="@style/DetailText"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_column="1"
+                        android:layout_height="25dp"
                         android:text="Tác giả"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="2"
+                        android:layout_height="25dp"
                         android:gravity="center_vertical"
                         android:text=":" />
 
                     <TextView
                         android:id="@+id/txv_author"
                         style="@style/DetailText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_column="3"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="10"
                         android:text="No One" />
-                </TableRow>
+                </LinearLayout>
                 <!--kind-->
-                <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="15">
 
                     <TextView
                         style="@style/DetailText"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_column="1"
-                        android:text="Thể loại"
+                        android:layout_height="25dp"
+                        android:text="Thể loài "
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="2"
+                        android:layout_height="25dp"
                         android:gravity="center_vertical"
                         android:text=":" />
 
                     <TextView
-                        android:id="@+id/txv_kind"
+                        android:id="@+id/txv_kinds"
                         style="@style/DetailText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textSize="14sp"
                         android:layout_height="wrap_content"
-                        android:layout_column="3"
                         android:layout_gravity="center_vertical"
                         android:text="No Kind" />
-                </TableRow>
+                </LinearLayout>
                 <!--chapter-->
-                <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="15">
 
                     <TextView
                         style="@style/DetailText"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_column="1"
-                        android:text="Số chap"
+                        android:layout_height="20dp"
+                        android:text="Số chap "
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="2"
+                        android:layout_height="20dp"
                         android:gravity="center_vertical"
                         android:text=":" />
 
                     <TextView
-                        android:id="@+id/txv_chapters"
+                        android:id="@+id/txv_chapter"
                         style="@style/DetailText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_column="3"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
                         android:text="0" />
-                </TableRow>
+                </LinearLayout>
                 <!--views-->
-                <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="15">
 
                     <TextView
                         style="@style/DetailText"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_column="1"
+                        android:layout_height="20dp"
                         android:text="Lượt đọc "
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="2"
+                        android:layout_height="20dp"
                         android:gravity="center_vertical"
                         android:text=":" />
 
                     <TextView
                         android:id="@+id/txv_views"
                         style="@style/DetailText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_column="3"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
                         android:text="0" />
-                </TableRow>
+                </LinearLayout>
                 <!--read button-->
-                <TableRow
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp">
 
                     <Button
                         android:id="@+id/btnDoctruyen"
                         android:layout_width="0dp"
-                        android:layout_height="45dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_import_contacts_black_24dp"
                         android:text="Đọc" />
-                </TableRow>
+                </LinearLayout>
                 <!--like share comment-->
-                <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:orientation="horizontal">
 
-                </TableRow>
+                    <com.facebook.share.widget.LikeView
+                        android:id="@+id/likeView"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+                </LinearLayout>
 
-            </TableLayout>
+            </LinearLayout>
 
         </LinearLayout>
-        <com.facebook.share.widget.LikeView
-            android:id="@+id/likeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
+        <LinearLayout
+            android:paddingTop="15dp"
+            android:paddingBottom="22dp"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/txv_readMoreTop"
+                android:text="Đọc thêm"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="80dp"
+                android:layout_height="30dp" />
+            <TextView
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_margin="5dp"
+                android:textSize="15dp"
+                android:ellipsize="end"
+                android:singleLine="false"
+                android:maxLines="3"
+                android:id="@+id/txv_review" />
+            <TextView
+                android:id="@+id/txv_readMoreBottom"
+                android:text="Đọc thêm"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="80dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
     </LinearLayout>
-
-
 
 
 </ScrollView>

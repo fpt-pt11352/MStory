@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
 import vn.edu.poly.mstory.activity.ComicDetailActivity;
-import vn.edu.poly.mstory.object.variable.Comic;
+import vn.edu.poly.mstory.object.variable.Comics;
 
 /**
  * Created by lucius on 11/15/16.
@@ -26,10 +26,10 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
 
     private int[] arrImg;
     private Context context;
-    ArrayList<Comic> arrComic = new ArrayList<>();
+    ArrayList<Comics> arrComicses = new ArrayList<>();
 
-    public RecyclerviewCustomAdapter(ArrayList<Comic> arrComic) {
-        this.arrComic = arrComic;
+    public RecyclerviewCustomAdapter(ArrayList<Comics> arrComicses) {
+        this.arrComicses = arrComicses;
     }
 
     @Override
@@ -42,27 +42,27 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Context context = holder.comicImage.getContext();
-        holder.comicName.setText(arrComic.get(position).comicsName);
-        holder.viewNumber.setText(arrComic.get(position).getViews()+"");
-        holder.chapterNumber.setText(arrComic.get(position).getEpisodes()+"");
-        Picasso.with(context).load(arrComic.get(position).thumbnail).error(R.mipmap.bia).resize(300, 400).into(holder.comicImage);
+        holder.comicName.setText(arrComicses.get(position).comicsName);
+        holder.viewNumber.setText(arrComicses.get(position).getViews()+"");
+        holder.chapterNumber.setText(arrComicses.get(position).getEpisodes()+"");
+        Picasso.with(context).load(arrComicses.get(position).thumbnail).error(R.mipmap.bia).resize(300, 400).into(holder.comicImage);
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, ComicDetailActivity.class);
-                intent.putExtra("id",arrComic.get(position).getId()+"");
-                intent.putExtra("comicsName",arrComic.get(position).getComicsName());
-                intent.putExtra("view",String.valueOf(arrComic.get(position).getViews()));
-                intent.putExtra("content",arrComic.get(position).getContent());
-                intent.putExtra("thumbnail",arrComic.get(position).getThumbnail());
-                context.startActivity(intent);
+                Intent intent=new Intent(v.getContext(), ComicDetailActivity.class);
+                intent.putExtra("id", arrComicses.get(position).getId()+"");
+                intent.putExtra("comicsName", arrComicses.get(position).getComicsName());
+                intent.putExtra("view",String.valueOf(arrComicses.get(position).getViews()));
+                intent.putExtra("content", arrComicses.get(position).getContent());
+                intent.putExtra("thumbnail", arrComicses.get(position).getThumbnail());
+                v.getContext().startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return arrComic.size();
+        return arrComicses.size();
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {

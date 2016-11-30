@@ -15,16 +15,16 @@ import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
 import vn.edu.poly.mstory.activity.ComicDetailActivity;
-import vn.edu.poly.mstory.object.variable.Comic;
+import vn.edu.poly.mstory.object.variable.Comics;
 
 
 public class ComicListCustomAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<Comic> arrComic=new ArrayList<>();
+    private ArrayList<Comics> arrComic=new ArrayList<>();
 
 
-    public ComicListCustomAdapter(Context mContext, ArrayList<Comic> arrComics) {
+    public ComicListCustomAdapter(Context mContext, ArrayList<Comics> arrComics) {
         this.mContext = mContext;
         this.arrComic = arrComics;
     }

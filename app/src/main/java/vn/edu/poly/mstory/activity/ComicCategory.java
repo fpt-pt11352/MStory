@@ -20,11 +20,11 @@ import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mstory.object.handle.custom.adapter.ComicListCustomAdapter;
 import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mstory.object.handle.json.ParserJSON;
-import vn.edu.poly.mstory.object.variable.Comic;
+import vn.edu.poly.mstory.object.variable.Comics;
 
 public class ComicCategory extends AppCompatActivity implements DownloadEvent {
     ParserJSON parserJSON=new ParserJSON();
-    ArrayList<Comic> arrComics=new ArrayList<>();
+    ArrayList<Comics> arrComics=new ArrayList<>();
 
     GridView androidGridView;
     TextView text;
@@ -62,7 +62,7 @@ public class ComicCategory extends AppCompatActivity implements DownloadEvent {
     public void onLoadFinish(String string) {
         ParserJSON parserJSON=new ParserJSON();
         try {
-            ArrayList<Comic> arrComics=parserJSON.getComicArray(string);
+            ArrayList<Comics> arrComics=parserJSON.getComicArray(string);
             ComicListCustomAdapter adapterViewAndroid = new ComicListCustomAdapter(ComicCategory.this,arrComics);
             androidGridView = (GridView) findViewById(R.id.grid_view_image_text);
             androidGridView.setAdapter(adapterViewAndroid);

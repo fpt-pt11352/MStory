@@ -4,7 +4,7 @@ package vn.edu.poly.mstory.object.variable;
  * Created by vuong on 12/11/2016.
  */
 
-public class Comic {
+public class Comics {
 
     public int id;
     public String comicsName;
@@ -15,7 +15,7 @@ public class Comic {
     public String episodes;
     public String content;
 
-    public Comic(int id, String name, String kind, String thumbnail, int views, String author, String episodes, String content) {
+    public Comics(int id, String name, String kind, String thumbnail, int views, String author, String episodes, String content) {
         this.id = id;
         this.comicsName = name;
         this.kind = kind;
@@ -26,7 +26,7 @@ public class Comic {
         this.content = content;
     }
 
-    public Comic() {
+    public Comics() {
 
     }
 

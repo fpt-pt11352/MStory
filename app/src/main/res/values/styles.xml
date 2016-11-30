@@ -17,7 +17,7 @@
 
     <style name="DetailText">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:layout_gravity">start</item>
         <item name="android:gravity">center_vertical</item>
     </style>

@@ -4,11 +4,11 @@ package vn.edu.poly.mstory.object.variable;
  * Created by lucius on 11/17/16.
  */
 
-public class ComicKind {
+public class ComicsKind {
     public int id;
     public String kind;
 
-    public ComicKind(int id, String kind) {
+    public ComicsKind(int id, String kind) {
         this.id = id;
         this.kind = kind;
     }

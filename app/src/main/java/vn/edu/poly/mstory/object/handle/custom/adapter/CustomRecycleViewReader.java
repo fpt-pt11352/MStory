@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.object.variable.Comic;
+import vn.edu.poly.mstory.object.variable.Comics;
 
 /**
  * Created by user on 11/24/2016.
@@ -20,9 +20,9 @@ public class CustomRecycleViewReader extends RecyclerView.Adapter<CustomRecycleV
 
 
     private Context context;
-    ArrayList<Comic> arrComic = new ArrayList<>();
+    ArrayList<Comics> arrComic = new ArrayList<>();
 
-    public CustomRecycleViewReader(ArrayList<Comic> arrComic) {
+    public CustomRecycleViewReader(ArrayList<Comics> arrComic) {
         this.arrComic = arrComic;
     }
 

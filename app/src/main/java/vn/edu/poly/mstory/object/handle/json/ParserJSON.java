@@ -6,16 +6,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.object.variable.Comic;
-import vn.edu.poly.mstory.object.variable.ComicKind;
+import vn.edu.poly.mstory.object.variable.Comics;
+import vn.edu.poly.mstory.object.variable.ComicsKind;
 
 /**
  * Created by lucius on 11/16/16.
  */
 
 public class ParserJSON {
-    public ArrayList<Comic> getComicArray(String json) throws JSONException {
-        ArrayList<Comic> comicsArray = new ArrayList<>();
+    public ArrayList<Comics> getComicArray(String json) throws JSONException {
+        ArrayList<Comics> comicsArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(json);
         for (int x = 0; x < jsonArray.length(); x++) {
             comicsArray.add(getComic(jsonArray.getJSONObject(x)));
@@ -23,8 +23,8 @@ public class ParserJSON {
         return comicsArray;
     }
 
-    public Comic getComic(JSONObject jsonObject) throws JSONException {
-        return new Comic(jsonObject.getInt("id"),
+    public Comics getComic(JSONObject jsonObject) throws JSONException {
+        return new Comics(jsonObject.getInt("id"),
                 jsonObject.getString("comics_name"),
                 jsonObject.getString("kind"),
                 jsonObject.getString("thumbnail"),
@@ -34,8 +34,8 @@ public class ParserJSON {
                 jsonObject.getString("content"));
     }
 
-    public ArrayList<ComicKind> getComicKindArray(String json) throws JSONException {
-        ArrayList<ComicKind> comicKindArray = new ArrayList<>();
+    public ArrayList<ComicsKind> getComicKindArray(String json) throws JSONException {
+        ArrayList<ComicsKind> comicKindArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(json);
         for (int x = 0; x < jsonArray.length(); x++) {
             comicKindArray.add(getComicKind(jsonArray.getJSONObject(x)));
@@ -43,8 +43,8 @@ public class ParserJSON {
         return comicKindArray;
     }
 
-    public ComicKind getComicKind(JSONObject jsonObject) throws JSONException {
-        return new ComicKind(jsonObject.getInt("id"),
+    public ComicsKind getComicKind(JSONObject jsonObject) throws JSONException {
+        return new ComicsKind(jsonObject.getInt("id"),
                 jsonObject.getString("kind_name"));
     }
 

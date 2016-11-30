@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     //button search
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action, menu);
         return true;
     }
@@ -60,34 +59,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         FragmentCreater fragment = FragmentCreater.getFragment(R.layout.loading_fragment, "loading");
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
-    }
-
-    public void createMainFragment(View view, String string) {
-        try {
-            ArrayList<Comic> comicArray = new ParserJSON().getComicArray(string);
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
-            RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicArray);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
-
-            LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
-            backgroundTask.setOnFinishEvent(new DownloadEvent() {
-                @Override
-                public void onLoadFinish(String string) {
-                    try {
-                        showKindListItem(string);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            backgroundTask.execute("http://grayguy.xyz/?kind=all&table=comic_kinds");
-        } catch (Exception e) {
-            Log.e("createMainFragment", "fail");
-            e.printStackTrace();
-        }
     }
 
     public void showKindListItem(String string) throws JSONException {
@@ -101,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, bookCategory.class);
+                    Intent intent = new Intent(MainActivity.this, ComicCategory.class);
                     Bundle bundle=new Bundle();
                     String kind_text =((TextView)v.findViewById(R.id.text)).getText().toString();
 
@@ -125,6 +96,37 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         });
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
+    }
+
+    public void createMainFragment(View view, String string) {
+        try {
+            ArrayList<Comic> comicArray = new ParserJSON().getComicArray(string);
+
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
+            RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicArray);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+
+            LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
+            backgroundTask.setOnFinishEvent(new DownloadEvent() {
+                @Override
+                public void onLoadFinish(String string) {
+                    try {
+                        showKindListItem(string);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            backgroundTask.execute("http://grayguy.xyz/?kind=all&table=comic_kinds");
+        } catch (Exception e) {
+            Log.e("createMainFragment", "fail");
+            e.printStackTrace();
+        }
     }
 
     public static class FragmentCreater extends Fragment {

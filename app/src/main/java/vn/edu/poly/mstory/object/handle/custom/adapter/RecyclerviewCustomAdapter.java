@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.activity.ComicsDetailActivity;
+import vn.edu.poly.mstory.activity.ComicDetailActivity;
 import vn.edu.poly.mstory.object.variable.Comic;
 
 /**
@@ -49,7 +49,7 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, ComicsDetailActivity.class);
+                Intent intent=new Intent(context, ComicDetailActivity.class);
                 intent.putExtra("id",arrComic.get(position).getId()+"");
                 intent.putExtra("comicsName",arrComic.get(position).getComicsName());
                 intent.putExtra("view",String.valueOf(arrComic.get(position).getViews()));

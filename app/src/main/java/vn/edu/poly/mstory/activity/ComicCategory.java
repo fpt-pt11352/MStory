@@ -10,21 +10,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
 import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
-import vn.edu.poly.mstory.object.handle.custom.adapter.loadGridView;
+import vn.edu.poly.mstory.object.handle.custom.adapter.ComicListCustomAdapter;
 import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mstory.object.handle.json.ParserJSON;
 import vn.edu.poly.mstory.object.variable.Comic;
 
-public class bookCategory extends AppCompatActivity implements DownloadEvent {
+public class ComicCategory extends AppCompatActivity implements DownloadEvent {
     ParserJSON parserJSON=new ParserJSON();
     ArrayList<Comic> arrComics=new ArrayList<>();
 
@@ -43,8 +41,7 @@ public class bookCategory extends AppCompatActivity implements DownloadEvent {
         text = (TextView) findViewById(R.id.text);
 
         Intent callerIntent = getIntent();
-        Bundle packageFromCaller =
-                callerIntent.getBundleExtra("MyPackage");
+        Bundle packageFromCaller = callerIntent.getBundleExtra("MyPackage");
         String title=packageFromCaller.getString("name");
         text.setText(title);
         Log.d("query","SELECT * FROM  `comics_master` WHERE kind LIKE '%"+Uri.encode("Marvel")+"%'");
@@ -66,18 +63,15 @@ public class bookCategory extends AppCompatActivity implements DownloadEvent {
         ParserJSON parserJSON=new ParserJSON();
         try {
             ArrayList<Comic> arrComics=parserJSON.getComicArray(string);
-            loadGridView adapterViewAndroid = new loadGridView(bookCategory.this,arrComics);
+            ComicListCustomAdapter adapterViewAndroid = new ComicListCustomAdapter(ComicCategory.this,arrComics);
             androidGridView = (GridView) findViewById(R.id.grid_view_image_text);
             androidGridView.setAdapter(adapterViewAndroid);
             androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int i, long id) {
-
+                public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
                 }
             });
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

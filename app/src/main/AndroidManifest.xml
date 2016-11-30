@@ -10,6 +10,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,10 +21,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.bookCategory" />
-        <activity android:name=".activity.ComicsDetailActivity" />
-        <activity android:name=".activity.ComicsChapterActivity" />
-        <activity android:name=".activity.ComicsReaderActivity"></activity>
+        <activity android:name=".activity.ComicCategory" />
+        <activity android:name=".activity.ComicDetailActivity" />
+        <activity android:name=".activity.ComicChaptersActivity" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/facebook_app_id" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1702012706779145"
+            android:exported="true" />
+
+        <activity android:name=".activity.ComicsReadingActivity"></activity>
     </application>
 
 </manifest>

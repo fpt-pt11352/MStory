@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.ScaleAnimation;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -19,10 +18,17 @@ import vn.edu.poly.mstory.R;
 public class ChapterListAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<Integer> list;
+    private String id;
 
     public ChapterListAdapter(Activity activity, ArrayList<Integer> list) {
         this.activity = activity;
         this.list = list;
+    }
+
+    public ChapterListAdapter(Activity activity, ArrayList<Integer> list, String id) {
+        this.activity = activity;
+        this.list = list;
+        this.id = id;
     }
 
     @Override
@@ -41,11 +47,12 @@ public class ChapterListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         view = (LayoutInflater.from(activity)).inflate(R.layout.chapter_view_item, parent, false);
-        TextView textView = ((TextView)view.findViewById(R.id.text));
-        textView.setText("Chapter "+list.get(position));
-
+        TextView textView = ((TextView) view.findViewById(R.id.text));
+        textView.setText("Chapter " + list.get(position));
         return view;
     }
+
+
 }

@@ -62,14 +62,27 @@ public class ComicDetailActivity extends AppCompatActivity implements FacebookCa
         likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
         //https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492
         //likeView.setObjectIdAndType("https://www.facebook.com/MComics-252252888524492/", LikeView.ObjectType.PAGE);
-        likeView.setObjectIdAndType("https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492", LikeView.ObjectType.DEFAULT);
-
+        likeView.setObjectIdAndType("https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492", LikeView.ObjectType.PAGE);
         likeView.setOnErrorListener(new LikeView.OnErrorListener() {
             @Override
             public void onError(FacebookException error) {
                 Log.e("error", error.toString());
             }
         });
+
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492/likes",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("Error", response.getError().toString());
+                        Log.e("OK", response.toString());
+                    }
+                }
+        ).executeAsync();
+
 
         final Intent intent = getIntent();
 //        imgComicsDetail = (ImageView) findViewById(R.id.imgComicsDetail);

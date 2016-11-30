@@ -2,7 +2,6 @@ package vn.edu.poly.mstory.object.handle.social;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.telecom.Call;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -11,7 +10,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by lucius on 30/11/2016.
@@ -35,8 +34,13 @@ public class FacebookAPI {
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
-    public void createLoginButton(LoginButton loginButton, ArrayList<String> permissionArray, FacebookCallback<LoginResult> facebookCallback) {
-        loginButton.setReadPermissions(permissionArray);
+    public void createLoginButton(LoginButton loginButton, String [] readPermission, String [] publicPermission, FacebookCallback<LoginResult> facebookCallback) {
+        if(readPermission!= null){
+            loginButton.setReadPermissions(Arrays.asList(readPermission));
+        }
+        if(publicPermission!= null){
+            loginButton.setPublishPermissions(Arrays.asList(publicPermission));
+        }
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 

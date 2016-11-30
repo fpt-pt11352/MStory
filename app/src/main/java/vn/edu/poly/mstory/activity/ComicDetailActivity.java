@@ -34,6 +34,7 @@ import com.squareup.picasso.Picasso;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
+import java.util.ArrayList;
 
 import vn.edu.poly.mstory.R;
 import vn.edu.poly.mstory.object.handle.social.FacebookAPI;
@@ -55,7 +56,8 @@ public class ComicDetailActivity extends AppCompatActivity implements FacebookCa
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
-        facebookAPI.createLoginButton((LoginButton) findViewById(R.id.login_button), this);
+
+        facebookAPI.createLoginButton((LoginButton) findViewById(R.id.login_button), null, new String[]{"publish_actions"}, this);
 
         LikeView likeView = (LikeView) findViewById(R.id.likeView);
         likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
@@ -70,15 +72,17 @@ public class ComicDetailActivity extends AppCompatActivity implements FacebookCa
             }
         });
 
+        Bundle params = new Bundle();
+        params.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
+        /* make the API call */
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492/likes",
-                null,
-                HttpMethod.GET,
+                "/me/og.likes",
+                params,
+                HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Log.e("Error", response.getError().toString());
-                        Log.e("OK", response.toString());
+                        Log.e("Error", response.toString());
                     }
                 }
         ).executeAsync();
@@ -102,7 +106,7 @@ public class ComicDetailActivity extends AppCompatActivity implements FacebookCa
         btnDoctruyen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2=new Intent(getBaseContext(),ComicChaptersActivity.class);
+                Intent intent2 = new Intent(getBaseContext(), ComicChaptersActivity.class);
                 intent2.putExtra("id", intent.getStringExtra("id"));
                 startActivity(intent2);
             }

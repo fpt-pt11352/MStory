@@ -3,7 +3,9 @@
     android:id="@+id/android_custom_gridview_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:gravity="center_horizontal"
+    android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:weightSum="1">
 

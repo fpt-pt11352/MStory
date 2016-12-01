@@ -61,43 +61,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
-    public void showKindListItem(String string) throws JSONException {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linear_kind);
-        ArrayList<ComicsKind> comicsKindArray = new ParserJSON().getComicKindArray(string);
-        Log.e("arrsize", comicsKindArray.size() + "");
-        for (int x = 0; x < comicsKindArray.size(); x++) {
-            View view = (LayoutInflater.from(this)).inflate(R.layout.kind_list_item_view, null, false);
-            ((TextView) view.findViewById(R.id.id)).setText(comicsKindArray.get(x).getId() + "");
-            ((TextView) view.findViewById(R.id.text)).setText(comicsKindArray.get(x).getKind());
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, ComicCategory.class);
-                    Bundle bundle=new Bundle();
-                    String kind_text =((TextView)v.findViewById(R.id.text)).getText().toString();
-
-                    bundle.putString("name", kind_text);
-                    intent.putExtra("MyPackage", bundle);
-                    startActivity(intent);
-                }
-            });
-            layout.addView(view, x);
-        }
-    }
-
-    @Override
-    public void onLoadFinish(final String string) {
-        FragmentCreater fragment = FragmentCreater.getFragment(R.layout.main_fragment, "main");
-        fragment.setOnViewCreateCallback(new OnViewCreateCallback() {
-            @Override
-            public void OnViewCreate(View view, String tag) {
-                createMainFragment(view, string);
-            }
-        });
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
-    }
-
     public void createMainFragment(View view, String string) {
         getSupportActionBar().show();
         try {
@@ -128,6 +91,39 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
             Log.e("createMainFragment", "fail");
             e.printStackTrace();
         }
+    }
+
+    public void showKindListItem(String string) throws JSONException {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linear_kind);
+        final ArrayList<ComicsKind> comicsKindArray = new ParserJSON().getComicKindArray(string);
+        for (int x = 0; x < comicsKindArray.size(); x++) {
+            View view = (LayoutInflater.from(this)).inflate(R.layout.kind_list_item_view, null, false);
+            ((TextView) view.findViewById(R.id.id)).setText(comicsKindArray.get(x).getId() + "");
+            ((TextView) view.findViewById(R.id.text)).setText(comicsKindArray.get(x).getKind());
+            final int finalX = x;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, ComicsCategoryActivity.class);
+                    intent.putExtra("id", comicsKindArray.get(finalX).getId());
+                    startActivity(intent);
+                }
+            });
+            layout.addView(view, x);
+        }
+    }
+
+    @Override
+    public void onLoadFinish(final String string) {
+        FragmentCreater fragment = FragmentCreater.getFragment(R.layout.main_fragment, "main");
+        fragment.setOnViewCreateCallback(new OnViewCreateCallback() {
+            @Override
+            public void OnViewCreate(View view, String tag) {
+                createMainFragment(view, string);
+            }
+        });
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
     public static class FragmentCreater extends Fragment {

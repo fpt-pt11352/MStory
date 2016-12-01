@@ -31,7 +31,8 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        setContentView(R.layout.activity_comic_detail);
+        setContentView(R.layout.activity_comics_detail);
+        getView();
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -72,7 +73,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         loadJson.setOnFinishEvent(this);
         loadJson.execute("http://grayguy.xyz/?kind=comics_detail&id=" + intent.getExtras().getString("id"));
 
-        btn_openComics = (Button) findViewById(R.id.btnDoctruyen);
+
         btn_openComics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,17 +82,12 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 startActivity(intent2);
             }
         });
-
-        txv_review = (TextView)findViewById(R.id.txv_review);
-
-        txv_readMoreTop = (TextView) findViewById(R.id.txv_readMoreTop);
         txv_readMoreTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHideReview();
             }
         });
-        txv_readMoreBottom = (TextView) findViewById(R.id.txv_readMoreBottom);
         txv_readMoreBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,19 +96,26 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         });
     }
 
+    public void getView() {
+        btn_openComics = (Button) findViewById(R.id.btnDoctruyen);
+        txv_review = (TextView) findViewById(R.id.txv_review);
+        txv_readMoreTop = (TextView) findViewById(R.id.txv_readMoreTop);
+        txv_readMoreBottom = (TextView) findViewById(R.id.txv_readMoreBottom);
+    }
+
     public void showHideReview() {
-        if (isShow = !isShow){
+        if (isShow = !isShow) {
             show();
-        }else {
+        } else {
             hide();
         }
     }
 
-    public void show(){
+    public void show() {
         txv_review.setMaxLines(Integer.MAX_VALUE);
     }
 
-    public void hide(){
+    public void hide() {
         txv_review.setMaxLines(3);
     }
 

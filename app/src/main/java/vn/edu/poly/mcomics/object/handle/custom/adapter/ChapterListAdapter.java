@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.custom.adapter;
+package vn.edu.poly.mcomics.object.handle.custom.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.R;
+import vn.edu.poly.mcomics.R;
 
 /**
  * Created by lucius on 23/11/2016.

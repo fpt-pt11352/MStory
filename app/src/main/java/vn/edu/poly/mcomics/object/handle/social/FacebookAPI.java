@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.social;
+package vn.edu.poly.mcomics.object.handle.social;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.json;
+package vn.edu.poly.mcomics.object.handle.json;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.object.variable.Comics;
-import vn.edu.poly.mstory.object.variable.ComicsKind;
+import vn.edu.poly.mcomics.object.variable.Comics;
+import vn.edu.poly.mcomics.object.variable.ComicsKind;
 
 /**
  * Created by lucius on 11/16/16.

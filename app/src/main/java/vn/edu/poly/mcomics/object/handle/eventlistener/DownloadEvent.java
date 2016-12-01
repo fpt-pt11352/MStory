@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.eventlistener;
+package vn.edu.poly.mcomics.object.handle.eventlistener;
 
 /**
  * Created by lucius on 11/16/16.

@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.backgroundtask;
+package vn.edu.poly.mcomics.object.handle.backgroundtask;
 
 import android.os.AsyncTask;
 
@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 
 /**
  * Created by lucius on 11/15/16.

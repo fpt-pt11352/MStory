@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.activity;
+package vn.edu.poly.mcomics.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -21,14 +21,14 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
-import vn.edu.poly.mstory.object.handle.custom.adapter.RecyclerviewCustomAdapter;
-import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
-import vn.edu.poly.mstory.object.handle.eventlistener.OnViewCreateCallback;
-import vn.edu.poly.mstory.object.handle.json.ParserJSON;
-import vn.edu.poly.mstory.object.variable.Comics;
-import vn.edu.poly.mstory.object.variable.ComicsKind;
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
+import vn.edu.poly.mcomics.object.handle.custom.adapter.RecyclerviewCustomAdapter;
+import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.eventlistener.OnViewCreateCallback;
+import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.variable.Comics;
+import vn.edu.poly.mcomics.object.variable.ComicsKind;
 
 public class MainActivity extends AppCompatActivity implements DownloadEvent {
     private Activity activity;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getSupportActionBar().hide();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     }
 
     public void createMainFragment(View view, String string) {
+        getSupportActionBar().show();
         try {
             ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
 

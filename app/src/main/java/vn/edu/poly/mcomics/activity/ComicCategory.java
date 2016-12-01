@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.activity;
+package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,12 +15,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
-import vn.edu.poly.mstory.object.handle.custom.adapter.ComicListCustomAdapter;
-import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
-import vn.edu.poly.mstory.object.handle.json.ParserJSON;
-import vn.edu.poly.mstory.object.variable.Comics;
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
+import vn.edu.poly.mcomics.object.handle.custom.adapter.ComicListCustomAdapter;
+import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.variable.Comics;
 
 public class ComicCategory extends AppCompatActivity implements DownloadEvent {
     ParserJSON parserJSON=new ParserJSON();

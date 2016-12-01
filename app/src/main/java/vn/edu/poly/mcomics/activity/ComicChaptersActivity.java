@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.activity;
+package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +12,11 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
-import vn.edu.poly.mstory.object.handle.custom.adapter.ChapterListAdapter;
-import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
-import vn.edu.poly.mstory.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
+import vn.edu.poly.mcomics.object.handle.custom.adapter.ChapterListAdapter;
+import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 
 public class ComicChaptersActivity extends AppCompatActivity implements DownloadEvent {
     private GridView gridView;

@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.activity;
+package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,19 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
-import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.object.handle.backgroundtask.LoadJsonInBackground;
-import vn.edu.poly.mstory.object.handle.eventlistener.DownloadEvent;
-import vn.edu.poly.mstory.object.handle.json.ParserJSON;
-import vn.edu.poly.mstory.object.handle.social.FacebookAPI;
-import vn.edu.poly.mstory.object.variable.Comics;
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
+import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
+import vn.edu.poly.mcomics.object.variable.Comics;
 
 public class ComicDetailActivity extends AppCompatActivity implements DownloadEvent {
     private Button btn_openComics;

@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.eventlistener;
+package vn.edu.poly.mcomics.object.handle.eventlistener;
 
 import android.view.View;
 

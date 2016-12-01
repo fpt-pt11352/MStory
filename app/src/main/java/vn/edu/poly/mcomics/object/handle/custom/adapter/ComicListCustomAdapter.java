@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.custom.adapter;
+package vn.edu.poly.mcomics.object.handle.custom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.activity.ComicDetailActivity;
-import vn.edu.poly.mstory.object.variable.Comics;
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.activity.ComicDetailActivity;
+import vn.edu.poly.mcomics.object.variable.Comics;
 
 
 public class ComicListCustomAdapter extends BaseAdapter {

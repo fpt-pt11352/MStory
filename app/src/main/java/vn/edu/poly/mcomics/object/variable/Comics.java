@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.variable;
+package vn.edu.poly.mcomics.object.variable;
 
 /**
  * Created by vuong on 12/11/2016.

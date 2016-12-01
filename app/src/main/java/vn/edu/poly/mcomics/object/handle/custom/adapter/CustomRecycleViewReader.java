@@ -1,4 +1,4 @@
-package vn.edu.poly.mstory.object.handle.custom.adapter;
+package vn.edu.poly.mcomics.object.handle.custom.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-import vn.edu.poly.mstory.R;
-import vn.edu.poly.mstory.object.variable.Comics;
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.variable.Comics;
 
 /**
  * Created by user on 11/24/2016.

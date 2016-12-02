@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -31,31 +33,26 @@ import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.eventlistener.OnViewCreateCallback;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
+import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Comics;
 import vn.edu.poly.mcomics.object.variable.ComicsKind;
 
 public class MainActivity extends AppCompatActivity implements DownloadEvent {
-    private Activity activity;
+    private FacebookAPI facebookAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        facebookAPI = new FacebookAPI(this);
+        facebookAPI.init();
         setContentView(R.layout.activity_main);
-       // new NavigationDrawer(this, (ViewGroup)findViewById(R.id.root));
-
-//        setContentView(R.layout.navigation_view);
-//        new NavigationDrawer(this, R.layout.activity_main,(ViewGroup)findViewById(R.id.root));
-
 
         getSupportActionBar().hide();
-        createLoadingFragment();
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        this.activity = this;
-        LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
-        backgroundTask.setOnFinishEvent(this);
-        backgroundTask.execute("http://grayguy.xyz/?kind=top");
+
+        createLoadingFragment();
+        startLoadData();
     }
 
     //button search
@@ -65,42 +62,58 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         return true;
     }
 
+    public void startLoadData() {
+        LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
+        backgroundTask.setOnFinishEvent(this);
+        backgroundTask.execute("http://grayguy.xyz/?kind=top");
+    }
+
+    @Override
+    public void onLoadFinish(final String string) {
+        FragmentCreator fragment = FragmentCreator.getFragment(R.layout.navigation_view, "main");
+        fragment.setOnViewCreateCallback(new OnViewCreateCallback() {
+            @Override
+            public void OnViewCreate(View view, String tag) {
+                try {
+                    createMainFragment(view, string);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        getFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+    }
+
     public void createLoadingFragment() {
-        FragmentCreater fragment = FragmentCreater.getFragment(R.layout.loading_fragment, "loading");
+        FragmentCreator fragment = FragmentCreator.getFragment(R.layout.loading_fragment, "loading");
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
-    public void createMainFragment(View view, String string) {
+    public void createMainFragment(View view, String string) throws JSONException {
         getSupportActionBar().show();
-        try {
-            ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
+        new NavigationDrawer(this, R.layout.main_fragment, (ViewGroup) view);
+        ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicsArray);
+        recyclerView.setAdapter(adapter);
 
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
-            recyclerView.setLayoutManager(layoutManager);
-
-            RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicsArray);
-            recyclerView.setAdapter(adapter);
-
-            LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
-            backgroundTask.setOnFinishEvent(new DownloadEvent() {
-                @Override
-                public void onLoadFinish(String string) {
-                    try {
-                        showKindListItem(string);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
+        backgroundTask.setOnFinishEvent(new DownloadEvent() {
+            @Override
+            public void onLoadFinish(String string) {
+                try {
+                    showKindListItem(string);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
-            backgroundTask.execute("http://grayguy.xyz/?kind=all&table=comic_kinds");
-        } catch (Exception e) {
-            Log.e("createMainFragment", "fail");
-            e.printStackTrace();
-        }
+            }
+        });
+        backgroundTask.execute("http://grayguy.xyz/?kind=all&table=comic_kinds");
     }
 
     public void showKindListItem(String string) throws JSONException {
@@ -123,28 +136,15 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         }
     }
 
-    @Override
-    public void onLoadFinish(final String string) {
-        FragmentCreater fragment = FragmentCreater.getFragment(R.layout.main_fragment, "main");
-        fragment.setOnViewCreateCallback(new OnViewCreateCallback() {
-            @Override
-            public void OnViewCreate(View view, String tag) {
-                createMainFragment(view, string);
-            }
-        });
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
-    }
-
-    public static class FragmentCreater extends Fragment {
+    public static class FragmentCreator extends Fragment {
         private OnViewCreateCallback onViewCreateCallback;
         static int layout = R.layout.activity_main;
         static String tag;
 
-        public static FragmentCreater getFragment(int layoutInt, String tagStr) {
+        public static FragmentCreator getFragment(int layoutInt, String tagStr) {
             layout = layoutInt;
             tag = tagStr;
-            return new FragmentCreater();
+            return new FragmentCreator();
         }
 
         public void setOnViewCreateCallback(OnViewCreateCallback onViewCreateCallback) {
@@ -161,4 +161,5 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
             return view;
         }
     }
+
 }

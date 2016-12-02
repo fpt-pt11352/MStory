@@ -3,6 +3,8 @@ package vn.edu.poly.mcomics.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.custom.adapter.ComicListCustomAdapter;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
 import vn.edu.poly.mcomics.object.variable.Comics;
 
 public class ComicsCategoryActivity extends AppCompatActivity implements DownloadEvent {
@@ -28,7 +31,8 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comics_category);
+        setContentView(R.layout.navigation_view);
+        new NavigationDrawer(this, R.layout.activity_comics_category, (ViewGroup)(findViewById(R.id.root)).getParent());
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);

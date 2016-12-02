@@ -7,9 +7,11 @@ import android.provider.Settings;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,35 +29,14 @@ public class NavigationDrawer {
     private Activity activity;
     private Dialog dialog;
 
-    public NavigationDrawer(final Activity activity, ViewGroup viewGroup) {
-        this.activity = activity;
-        this.inflater = (LayoutInflater.from(activity));
-        this.parent = viewGroup;
-
-        // biến R.layout.activity_comics_detail thành tham số
-        // biến truyền vào từ nơi gọi
-        view = (View) (inflater.inflate(R.layout.activity_comics_detail, parent, false));
-        parent.addView(view);
-        TextView change = (TextView) activity.findViewById(R.id.change);
-
-        clickBrightness();
-       change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
-    }
-
-
     public NavigationDrawer(final Activity activity, int layout,ViewGroup viewGroup) {
         this.activity = activity;
         this.inflater = (LayoutInflater.from(activity));
         this.parent = viewGroup;
 
-        view = (View) (inflater.inflate(layout, parent, false));
-        parent.addView(view);
-        TextView change = (TextView) activity.findViewById(R.id.change);
+        view = (inflater.inflate(layout, parent, false));
+        ((FrameLayout)parent.findViewById(R.id.root)).addView(view);
+        TextView change = (TextView) parent.findViewById(R.id.change);
 
         clickBrightness();
         change.setOnClickListener(new View.OnClickListener() {

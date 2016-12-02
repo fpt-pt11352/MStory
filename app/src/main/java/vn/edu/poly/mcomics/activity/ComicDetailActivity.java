@@ -47,7 +47,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         facebookAPI.init();
         //new NavigationDrawer(this, (ViewGroup)findViewById(R.id.root));
         setContentView(R.layout.navigation_view);
-        new NavigationDrawer(this, R.layout.activity_comics_detail,(ViewGroup)findViewById(R.id.root));
+        new NavigationDrawer(this, R.layout.activity_comics_detail,(ViewGroup)findViewById(R.id.root).getParent());
 
 
 

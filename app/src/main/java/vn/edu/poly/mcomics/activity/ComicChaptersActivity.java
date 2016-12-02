@@ -43,20 +43,14 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                   Intent intent = new Intent(getBaseContext(), ComicsReadingActivity.class);
+                    Intent intent = new Intent(getBaseContext(), ComicsReadingActivity.class);
                     intent.putExtra("id", comicId);
-                    intent.putExtra("chapter", position+1);
+                    intent.putExtra("chapter", position + 1);
                     startActivity(intent);
-                    //   Toast.makeText(ComicChaptersActivity.this, ""+position, Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void startNextActivity(AdapterView<?> parent, View view, int position, long id){
-        Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show();
-        view.getContext().startActivity(new Intent(view.getContext(), ComicsReadingActivity.class));
     }
 }

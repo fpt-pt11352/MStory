@@ -21,18 +21,14 @@ import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
 import vn.edu.poly.mcomics.object.variable.Comics;
 
 public class ComicsCategoryActivity extends AppCompatActivity implements DownloadEvent {
-    ParserJSON parserJSON=new ParserJSON();
-    ArrayList<Comics> arrComics=new ArrayList<>();
-
     GridView androidGridView;
     TextView text;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_view);
-        new NavigationDrawer(this, R.layout.activity_comics_category, (ViewGroup)(findViewById(R.id.root)).getParent());
+        new NavigationDrawer(this, R.layout.activity_comics_category, (ViewGroup) (findViewById(R.id.root)).getParent());
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -40,24 +36,23 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
         text = (TextView) findViewById(R.id.text);
         LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
         backgroundTask.setOnFinishEvent(this);
-        backgroundTask.execute("http://grayguy.xyz/?kind=by_kind&comic_kind="+getIntent().getExtras().getInt("id")+"&from=0&to=10");
+        backgroundTask.execute("http://grayguy.xyz/?kind=by_kind&comic_kind=" + getIntent().getExtras().getInt("id") + "&from=0&to=10");
 
     }
 
     //button search
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action, menu);
         return true;
     }
 
     @Override
     public void onLoadFinish(String string) {
-        ParserJSON parserJSON=new ParserJSON();
+        ParserJSON parserJSON = new ParserJSON();
         try {
-            ArrayList<Comics> arrComics=parserJSON.getComicArray(string);
-            ComicListCustomAdapter adapterViewAndroid = new ComicListCustomAdapter(ComicsCategoryActivity.this,arrComics);
+            ArrayList<Comics> arrComics = parserJSON.getComicArray(string);
+            ComicListCustomAdapter adapterViewAndroid = new ComicListCustomAdapter(ComicsCategoryActivity.this, arrComics);
             androidGridView = (GridView) findViewById(R.id.grid_view_image_text);
             androidGridView.setAdapter(adapterViewAndroid);
         } catch (JSONException e) {

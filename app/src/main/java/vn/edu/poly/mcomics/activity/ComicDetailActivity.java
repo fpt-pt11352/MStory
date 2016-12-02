@@ -49,8 +49,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         setContentView(R.layout.navigation_view);
         new NavigationDrawer(this, R.layout.activity_comics_detail,(ViewGroup)findViewById(R.id.root).getParent());
 
-
-
         getView();
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);

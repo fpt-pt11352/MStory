@@ -20,7 +20,6 @@ import vn.edu.poly.mcomics.object.variable.Content;
 
 
 public class ComicsReadingActivity extends AppCompatActivity {
-    private Activity activity;
     private ArrayList<Content> urlList;
     private RecyclerView recyclerView;
     private String id;

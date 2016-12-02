@@ -92,16 +92,11 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
 
     public void createMainFragment(View view, String string) throws JSONException {
         getSupportActionBar().show();
+
         new NavigationDrawer(this, R.layout.main_fragment, (ViewGroup) view);
+
         ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicsArray);
-        recyclerView.setAdapter(adapter);
-
+        createRecyclerView(view, comicsArray);
         LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
         backgroundTask.setOnFinishEvent(new DownloadEvent() {
             @Override
@@ -114,6 +109,15 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
             }
         });
         backgroundTask.execute("http://grayguy.xyz/?kind=all&table=comic_kinds");
+    }
+
+    public void createRecyclerView(View view, ArrayList<Comics> comicsArray) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicsArray);
+        recyclerView.setAdapter(adapter);
     }
 
     public void showKindListItem(String string) throws JSONException {
@@ -142,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         static String tag;
 
         public static FragmentCreator getFragment(int layoutInt, String tagStr) {
-            layout = layoutInt;
             tag = tagStr;
+            layout = layoutInt;
             return new FragmentCreator();
         }
 

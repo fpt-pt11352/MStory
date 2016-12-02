@@ -29,13 +29,13 @@ public class NavigationDrawer {
     private Activity activity;
     private Dialog dialog;
 
-    public NavigationDrawer(final Activity activity, int layout,ViewGroup viewGroup) {
+    public NavigationDrawer(final Activity activity, int layout, ViewGroup viewGroup) {
         this.activity = activity;
         this.inflater = (LayoutInflater.from(activity));
         this.parent = viewGroup;
 
         view = (inflater.inflate(layout, parent, false));
-        ((FrameLayout)parent.findViewById(R.id.root)).addView(view);
+        ((FrameLayout) parent.findViewById(R.id.root)).addView(view);
         TextView change = (TextView) parent.findViewById(R.id.change);
 
         clickBrightness();
@@ -47,8 +47,7 @@ public class NavigationDrawer {
         });
     }
 
-
-    public void clickBrightness(){
+    public void clickBrightness() {
         dialog = new Dialog(activity);
         dialog.setTitle("Thay đổi độ sáng");
         dialog.setContentView(R.layout.change_brightness);
@@ -56,7 +55,7 @@ public class NavigationDrawer {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Settings.System.putInt(activity.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS,progress);
+                Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, progress);
             }
 
             @Override
@@ -69,8 +68,5 @@ public class NavigationDrawer {
 
             }
         });
-
     }
-
-
 }

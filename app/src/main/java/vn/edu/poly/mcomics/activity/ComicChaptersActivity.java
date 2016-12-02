@@ -1,8 +1,8 @@
 package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -30,7 +30,7 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
         comicId = getIntent().getStringExtra("id");
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(this);
-        loadJson.execute("http://grayguy.xyz/?kind=chapter_list&comic_id=" + comicId);
+        loadJson.execute("http://grayguy.xyz/?kind=chapter_list&comics_id=" + comicId);
     }
 
     @Override
@@ -43,7 +43,11 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startNextActivity(parent, view, position, id);
+                   Intent intent = new Intent(getBaseContext(), ComicsReadingActivity.class);
+                    intent.putExtra("id", comicId);
+                    intent.putExtra("chapter", position+1);
+                    startActivity(intent);
+                    //   Toast.makeText(ComicChaptersActivity.this, ""+position, Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (JSONException e) {

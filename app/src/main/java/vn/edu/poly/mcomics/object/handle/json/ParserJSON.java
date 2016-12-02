@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import vn.edu.poly.mcomics.object.variable.Comics;
 import vn.edu.poly.mcomics.object.variable.ComicsKind;
+import vn.edu.poly.mcomics.object.variable.Content;
 
 /**
  * Created by lucius on 11/16/16.
@@ -55,5 +56,18 @@ public class ParserJSON {
             chapterArray.add(jsonArray.getJSONObject(x).getInt("chapter_number"));
         }
         return chapterArray;
+    }
+
+    public ArrayList<Content> getPage(String json) throws JSONException{
+
+        ArrayList<Content> list = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(json);
+        for(int x = 0; x < jsonArray.length(); x++){
+            int page = Integer.parseInt(jsonArray.getJSONObject(x).getString("page_number"));
+            String link = jsonArray.getJSONObject(x).getString("link");
+            list.add(new Content(page, link));
+        }
+
+        return list;
     }
 }

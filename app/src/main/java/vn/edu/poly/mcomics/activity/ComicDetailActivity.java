@@ -1,13 +1,26 @@
 package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
@@ -17,10 +30,11 @@ import vn.edu.poly.mcomics.R;
 import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Comics;
 
-public class ComicDetailActivity extends AppCompatActivity implements DownloadEvent {
+public class ComicDetailActivity extends AppCompatActivity implements DownloadEvent, FacebookCallback<LoginResult> {
     private Button btn_openComics;
     private FacebookAPI facebookAPI;
     private boolean isShow;
@@ -31,48 +45,43 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        setContentView(R.layout.activity_comics_detail);
+        //new NavigationDrawer(this, (ViewGroup)findViewById(R.id.root));
+        setContentView(R.layout.navigation_view);
+        new NavigationDrawer(this, R.layout.activity_comics_detail,(ViewGroup)findViewById(R.id.root));
+
+
+
         getView();
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        facebookAPI.buttonLike(
-                (LikeView) findViewById(R.id.likeView),
-                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-//        Bundle params = new Bundle();
-//        params.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-//        /* make the API call */
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/me/og.likes",
-//                params,
-//                HttpMethod.POST,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        Log.e("Error1", response.toString());
-//                    }
-//                }
-//        ).executeAsync();
+//        facebookAPI.buttonLike(
+//                ,
+//                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
+        LikeView likeView = (LikeView) findViewById(R.id.likeView);
+        likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
+        likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
+        likeView.setObjectIdAndType("https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492", LikeView.ObjectType.PAGE);
+        likeView.setOnErrorListener(new LikeView.OnErrorListener() {
+            @Override
+            public void onError(FacebookException error) {
+                Log.e("error", error.toString());
+            }
+        });
 
+        facebookAPI.createLoginButton(
+                (LoginButton) findViewById(R.id.login),
+                null,
+                new String[]{"publish_actions"},
+                this
+        );
 
-//        Bundle params1 = new Bundle();
-//        params1.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/935700306566899",
-//                null,
-//                HttpMethod.DELETE,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        Log.e("Error", response.toString());
-//                    }
-//                }
-//        ).executeAsync();
         final Intent intent = getIntent();
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(this);
-        loadJson.execute("http://grayguy.xyz/?kind=comics_detail&id=" + intent.getExtras().getString("id"));
-
+        loadJson.execute("http://grayguy.xyz/?kind=comics_detail&id=" + intent.getExtras().
+                getString("id")
+        );
 
         btn_openComics.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,18 +91,65 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 startActivity(intent2);
             }
         });
+
+        ((Button) findViewById(R.id.sendComment)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle params = new Bundle();
+                params.putString("message", "This is a test comment");
+                /* make the API call */
+                new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/253441638405617/comments",
+                        params,
+                        HttpMethod.POST,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+                                Log.e("send", response.toString());
+                            }
+                        }
+                ).executeAsync();
+            }
+        });
+
+        ((Button) findViewById(R.id.share)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GraphRequest request = GraphRequest.newPostRequest(AccessToken.getCurrentAccessToken(), "me/feed", null, new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        if (response.getError() == null) {
+                            Toast.makeText(getBaseContext(), "your status is updated", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), "some thing wrong", Toast.LENGTH_SHORT).show();
+                            Log.e("here", response.getError().getErrorMessage().toString());
+                        }
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("message",
+                        "i'm just trying to test the share function. " +
+                                "https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+        });
+
         txv_readMoreTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHideReview();
             }
         });
+
         txv_readMoreBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHideReview();
             }
         });
+
+
     }
 
     public void getView() {
@@ -122,6 +178,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        facebookAPI.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -138,5 +195,20 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+
     }
 }

@@ -30,6 +30,7 @@ import vn.edu.poly.mcomics.object.handle.custom.adapter.RecyclerviewCustomAdapte
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.eventlistener.OnViewCreateCallback;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
 import vn.edu.poly.mcomics.object.variable.Comics;
 import vn.edu.poly.mcomics.object.variable.ComicsKind;
 
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // new NavigationDrawer(this, (ViewGroup)findViewById(R.id.root));
+
+//        setContentView(R.layout.navigation_view);
+//        new NavigationDrawer(this, R.layout.activity_main,(ViewGroup)findViewById(R.id.root));
+
+
         getSupportActionBar().hide();
         createLoadingFragment();
 

@@ -3,11 +3,11 @@ package vn.edu.poly.mcomics.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -26,6 +26,7 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
     private String comicId;
     private NavigationDrawer navigationDrawer;
     private FacebookAPI facebookAPI;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,6 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
         facebookAPI.init();
         setContentView(R.layout.navigation_view);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comic_chapters, (ViewGroup) (findViewById(R.id.root).getParent()));
-
         comicId = getIntent().getStringExtra("id");
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(this);

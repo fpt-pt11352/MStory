@@ -52,13 +52,24 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
 //        facebookAPI.createLikeButton(
 //                ,
 //                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-        LikeView likeView = (LikeView) findViewById(R.id.likeView);
-        facebookAPI.createLikeButton(likeView, "https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492/");
+        ((TextView) findViewById(R.id.like)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                facebookAPI.like("253441638405617");
+            }
+        });
 
         ((TextView)findViewById(R.id.comment)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                facebookAPI.TestLike();
+                facebookAPI.comment("253441638405617", "abc123");
+            }
+        });
+
+        ((TextView)findViewById(R.id.share)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                facebookAPI.share("Test share function");
             }
         });
 

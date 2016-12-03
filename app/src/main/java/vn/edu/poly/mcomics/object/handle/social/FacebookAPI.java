@@ -19,6 +19,9 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.LikeView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 
 /**
@@ -53,24 +56,16 @@ public class FacebookAPI {
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
-    public void createLikeButton(LikeView likeView, String url) {
-        likeView.setLikeViewStyle(LikeView.Style.BUTTON);
-        likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
-        likeView.setObjectIdAndType(url, LikeView.ObjectType.PAGE);
-        likeView.setOnErrorListener(new LikeView.OnErrorListener() {
-            @Override
-            public void onError(FacebookException error) {
-                Log.e("error", error.toString());
-            }
-        });
-    }
-
-    public void TestLike(){
+    public void like(String objectId) {
+        String access_token;
+        if((access_token = getToken()) == null){
+            return;
+        }
         Bundle params = new Bundle();
-        params.putString("access_token", "EAAYLZBLbKcAkBALITP1IyenTc69ZCbu4qsncuBZCyNClTWaxt689RJXtiFPrFwcR87NNZAIz6GreM6qaClJGZBZAAZBc4P4KDIdol10DwjrdnZAI4Vv2q6bxcyFh9h9eyD9tb1ztYpwW6aOpYtZAgnLWCP5QeMQhYjEB4QK7LHSBxDQZDZD");
+        params.putString("access_token", access_token);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/253441638405617/likes",
+                "/"+objectId+"/likes",
                 params,
                 HttpMethod.POST,
                 new GraphRequest.Callback() {
@@ -79,6 +74,28 @@ public class FacebookAPI {
                     }
                 }
         ).executeAsync();
+    }
+
+    public String getToken() {
+        final String[] access_token = new String[1];
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/accounts",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            if(response.getError() == null){
+                                access_token[0] = response.getJSONObject().getJSONArray("data").getJSONObject(0).getString("access_token");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).executeAsync();
+        return access_token[0];
     }
 
     public void comment(String id, String comment) {
@@ -105,7 +122,7 @@ public class FacebookAPI {
         GraphRequest request = GraphRequest.newPostRequest(AccessToken.getCurrentAccessToken(), "me/feed", null, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {
-                Toast.makeText(activity, response.getError()==null?"your status is updated":"Couldn't update your status", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, response.getError() == null ? "your status is updated" : "Couldn't update your status", Toast.LENGTH_SHORT).show();
             }
         });
         Bundle parameters = new Bundle();

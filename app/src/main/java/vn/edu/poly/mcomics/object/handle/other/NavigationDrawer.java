@@ -14,10 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -42,6 +44,8 @@ public class NavigationDrawer{
     private Activity activity;
     private Dialog dialog;
     private CallbackManager callbackManager;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
 
     public NavigationDrawer(final Activity activity, int layout, ViewGroup viewGroup) {
         this.activity = activity;
@@ -52,10 +56,13 @@ public class NavigationDrawer{
 
         ((AppCompatActivity)activity).getSupportActionBar().hide();
 
-        Toolbar toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
+        toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
                 .findViewById(R.id.toolBar);
+
         ((LinearLayout)view).addView(toolbar, 0);
         ((FrameLayout) parent.findViewById(R.id.root)).addView(view);
+
+        drawerLayout = ((DrawerLayout)parent);
 
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton)parent.findViewById(R.id.fb_login);
@@ -82,9 +89,28 @@ public class NavigationDrawer{
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.getWindow().setLayout(1000, 150);
                 dialog.show();
             }
         });
+
+        createNavifationButton();
+    }
+
+    public void createNavifationButton(){
+        ((ImageView)toolbar.findViewById(R.id.navigation_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHideNavigation();
+            }
+        });
+    }
+
+    public void showHideNavigation(){
+        if(drawerLayout.isDrawerOpen(Gravity.START))
+            drawerLayout.closeDrawer(Gravity.START);
+        else
+            drawerLayout.openDrawer(Gravity.START);
     }
 
     public void clickBrightness() {

@@ -1,8 +1,11 @@
 package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +41,10 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     private boolean isShow;
     private TextView txv_readMoreTop, txv_readMoreBottom, txv_review;
     private NavigationDrawer navigationDrawer;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

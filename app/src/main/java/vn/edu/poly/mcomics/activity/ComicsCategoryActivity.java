@@ -1,13 +1,17 @@
 package vn.edu.poly.mcomics.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -26,6 +30,13 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
     private GridView androidGridView;
     private TextView text;
     private FacebookAPI facebookAPI;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private Toolbar toolbar;
+
+    public static void showToastLONG(Activity activity, String text) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

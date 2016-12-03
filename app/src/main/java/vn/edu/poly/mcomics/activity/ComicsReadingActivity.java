@@ -3,10 +3,14 @@ package vn.edu.poly.mcomics.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -29,6 +33,13 @@ public class ComicsReadingActivity extends AppCompatActivity {
     private String chapter;
     private FacebookAPI facebookAPI;
     private NavigationDrawer navigationDrawer;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private Toolbar toolbar;
+
+    public static void showToastLONG(Activity activity, String text) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

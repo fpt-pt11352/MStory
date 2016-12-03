@@ -5,13 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     >
-
-    <!--<ImageView-->
-        <!--android:id="@+id/action_search"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:icon="@android:drawable/ic_menu_search"-->
-        <!--android:title="search"-->
-        <!--app:actionViewClass="android.support.v7.widget.SearchView"-->
-        <!--app:showAsAction="ifRoom|collapseActionView"/>-->
+    <ImageView
+        android:id="@+id/navigation_button"
+        android:src="@drawable/pie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </android.support.v7.widget.Toolbar>

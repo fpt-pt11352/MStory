@@ -3,18 +3,22 @@ package vn.edu.poly.mcomics.object.handle.other;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +49,12 @@ public class NavigationDrawer{
         this.parent = viewGroup;
 
         view = (inflater.inflate(layout, parent, false));
+
+        ((AppCompatActivity)activity).getSupportActionBar().hide();
+
+        Toolbar toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
+                .findViewById(R.id.toolBar);
+        ((LinearLayout)view).addView(toolbar, 0);
         ((FrameLayout) parent.findViewById(R.id.root)).addView(view);
 
         callbackManager = CallbackManager.Factory.create();

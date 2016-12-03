@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         facebookAPI.init();
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().hide();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
@@ -91,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     }
 
     public void createMainFragment(View view, String string) throws JSONException {
-        getSupportActionBar().show();
-
         new NavigationDrawer(this, R.layout.main_fragment, (ViewGroup) view);
 
         ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);

@@ -85,6 +85,7 @@ public class FacebookAPI {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
+                        Log.e("response", response.toString());
                         try {
                             if(response.getError() == null){
                                 access_token[0] = response.getJSONObject().getJSONArray("data").getJSONObject(0).getString("access_token");

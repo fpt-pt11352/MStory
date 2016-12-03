@@ -1,22 +1,26 @@
 package vn.edu.poly.mcomics.activity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.facebook.FacebookSdk;
 
 import org.json.JSONException;
 
@@ -35,8 +39,6 @@ import vn.edu.poly.mcomics.object.variable.ComicsKind;
 
 public class MainActivity extends AppCompatActivity implements DownloadEvent {
     private FacebookAPI facebookAPI;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     }
 
     public void createMainFragment(View view, String string) throws JSONException {
+        getSupportActionBar().show();
+
         new NavigationDrawer(this, R.layout.main_fragment, (ViewGroup) view);
 
         ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
@@ -130,10 +134,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
                     Intent intent = new Intent(MainActivity.this, ComicsCategoryActivity.class);
                     intent.putExtra("id", comicsKindArray.get(finalX).getId());
                     startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in, R.anim.push_up_out);
-                    //goi ham nay ong
-                    //overridePendingTransition(hieu ung bat dau, hieu ung ket thuc);
-
                 }
             });
             layout.addView(view, x);

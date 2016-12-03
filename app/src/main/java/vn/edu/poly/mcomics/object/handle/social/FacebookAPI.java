@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -17,12 +17,12 @@ import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.widget.LikeView;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.Arrays;
+
+import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.other.Show;
 
 /**
  * Created by lucius on 30/11/2016.
@@ -31,9 +31,12 @@ import java.util.Arrays;
 public class FacebookAPI {
     private Activity activity;
     private CallbackManager callbackManager;
+    private FacebookHandle fbHandle;
+    private String access_token = "EAAYLZBLbKcAkBACwlduPZAa84THE85FjmXukcGpSKWFASLQ5KeeSChABcmLsCvESFMvH2wCZBTZCkLPkyGnGxdu1ArnjyJApebjZAXFtkTZCV3XjgDHat6tINiBZBmfxYNczeOlKIpy8as9JWQD1wVweYApm3xrjSjieR8Ihz6ZCpAZDZD";
 
     public FacebookAPI(Activity activity) {
         this.activity = activity;
+        fbHandle = new FacebookHandle();
     }
 
     public void init() {
@@ -43,6 +46,15 @@ public class FacebookAPI {
     }
 
     public void createLoginButton(LoginButton loginButton, FacebookCallback<LoginResult> facebookCallback) {
+        loginButton.setPublishPermissions(Arrays.asList(new String[]{
+                        "user_posts" ,
+                        "email" ,
+                        "manage_pages" ,
+                        "publish_pages" ,
+                        "business_management" ,
+                        "pages_messaging" ,
+                        "pages_messaging_payments" ,
+                        "public_profile"}));
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
@@ -56,57 +68,32 @@ public class FacebookAPI {
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
-    public void like(String objectId) {
-        String access_token;
-        if((access_token = getToken()) == null){
-            return;
-        }
+    public void like(final String objectId) {
         Bundle params = new Bundle();
         params.putString("access_token", access_token);
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/"+objectId+"/likes",
-                params,
-                HttpMethod.POST,
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/" + objectId + "/likes", params, HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Log.e("response", response.toString());
-                    }
-                }
-        ).executeAsync();
-    }
-
-    public String getToken() {
-        final String[] access_token = new String[1];
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/accounts",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("response", response.toString());
-                        try {
-                            if(response.getError() == null){
-                                access_token[0] = response.getJSONObject().getJSONArray("data").getJSONObject(0).getString("access_token");
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        Show.log("response", response.toString());
+                        if (response.toString().indexOf("\"success\":true") != -1) {
+                            fbHandle.getCount(objectId, FacebookHandle.LIKES, new DownloadEvent() {
+                                @Override
+                                public void onLoadFinish(String string) {
+                                    ((TextView) activity.findViewById(R.id.like)).setText("Liked (" + string + ")");
+                                }
+                            });
+                        } else {
+                            Show.toastSHORT(activity, "Fail");
                         }
                     }
                 }
         ).executeAsync();
-        return access_token[0];
     }
 
     public void comment(String id, String comment) {
         Bundle params = new Bundle();
         params.putString("message", comment);
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/" + id + "/comments",
-                params,
-                HttpMethod.POST,
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/" + id + "/comments", params, HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         try {
@@ -119,11 +106,16 @@ public class FacebookAPI {
         ).executeAsync();
     }
 
-    public void share(String status) {
+    public void share(final String objectId, String status) {
         GraphRequest request = GraphRequest.newPostRequest(AccessToken.getCurrentAccessToken(), "me/feed", null, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {
-                Toast.makeText(activity, response.getError() == null ? "your status is updated" : "Couldn't update your status", Toast.LENGTH_SHORT).show();
+                fbHandle.getCount(objectId, FacebookHandle.LIKES, new DownloadEvent() {
+                    @Override
+                    public void onLoadFinish(String string) {
+                        ((TextView) activity.findViewById(R.id.share)).setText("Shared (" + string + ")");
+                    }
+                });
             }
         });
         Bundle parameters = new Bundle();
@@ -135,4 +127,5 @@ public class FacebookAPI {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
 }

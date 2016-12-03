@@ -1,11 +1,8 @@
 package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +38,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     private boolean isShow;
     private TextView txv_readMoreTop, txv_readMoreBottom, txv_review;
     private NavigationDrawer navigationDrawer;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
-    private Toolbar toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +69,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         ((TextView)findViewById(R.id.share)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                facebookAPI.share("Test share function");
+                facebookAPI.share("253441638405617", "Test share function last time. https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492&substory_index=0");
             }
         });
 

@@ -89,7 +89,7 @@ public class NavigationDrawer{
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.getWindow().setLayout(1000, 150);
+                dialog.getWindow().setLayout(1000, 160);
                 dialog.show();
             }
         });

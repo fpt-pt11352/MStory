@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -17,15 +18,22 @@ import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.custom.adapter.ChapterListAdapter;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
+import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
+import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 
 public class ComicChaptersActivity extends AppCompatActivity implements DownloadEvent {
     private GridView gridView;
     private String comicId;
+    private NavigationDrawer navigationDrawer;
+    private FacebookAPI facebookAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comic_chapters);
+        facebookAPI = new FacebookAPI(this);
+        facebookAPI.init();
+        setContentView(R.layout.navigation_view);
+        navigationDrawer = new NavigationDrawer(this, R.layout.activity_comic_chapters, (ViewGroup) (findViewById(R.id.root).getParent()));
 
         comicId = getIntent().getStringExtra("id");
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
@@ -52,5 +60,11 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        facebookAPI.onActivityResult(requestCode, resultCode, data);
     }
 }

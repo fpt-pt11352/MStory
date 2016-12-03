@@ -37,6 +37,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     private FacebookAPI facebookAPI;
     private boolean isShow;
     private TextView txv_readMoreTop, txv_readMoreBottom, txv_review;
+    private NavigationDrawer navigationDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
         setContentView(R.layout.navigation_view);
-        new NavigationDrawer(this, R.layout.activity_comics_detail, (ViewGroup) findViewById(R.id.root).getParent());
+        navigationDrawer = new NavigationDrawer(this, R.layout.activity_comics_detail, (ViewGroup) findViewById(R.id.root).getParent());
         getView();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -53,6 +54,13 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
 //                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
         LikeView likeView = (LikeView) findViewById(R.id.likeView);
         facebookAPI.createLikeButton(likeView, "https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492/");
+
+        ((TextView)findViewById(R.id.comment)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                facebookAPI.TestLike();
+            }
+        });
 
         final Intent intent = getIntent();
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
@@ -70,13 +78,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
             }
         });
 
-
-        txv_readMoreTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showHideReview();
-            }
-        });
         txv_readMoreBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,10 +103,12 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
 
     public void show() {
         txv_review.setMaxLines(Integer.MAX_VALUE);
+        txv_readMoreBottom.setText("Ẩn");
     }
 
     public void hide() {
         txv_review.setMaxLines(3);
+        txv_readMoreBottom.setText("Đọc thêm");
     }
 
     @Override

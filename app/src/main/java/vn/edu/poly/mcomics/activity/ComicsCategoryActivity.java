@@ -19,15 +19,19 @@ import vn.edu.poly.mcomics.object.handle.custom.adapter.ComicListCustomAdapter;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
+import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Comics;
 
 public class ComicsCategoryActivity extends AppCompatActivity implements DownloadEvent {
-    GridView androidGridView;
-    TextView text;
+    private GridView androidGridView;
+    private TextView text;
+    private FacebookAPI facebookAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        facebookAPI = new FacebookAPI(this);
+        facebookAPI.init();
         setContentView(R.layout.navigation_view);
         new NavigationDrawer(this, R.layout.activity_comics_category, (ViewGroup) (findViewById(R.id.root)).getParent());
 
@@ -64,6 +68,6 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       // facebookAPI.onActivityResult(requestCode, resultCode, data);
+        facebookAPI.onActivityResult(requestCode, resultCode, data);
     }
 }

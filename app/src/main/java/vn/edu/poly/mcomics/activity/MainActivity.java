@@ -170,5 +170,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         facebookAPI.onActivityResult(requestCode, resultCode, data);
+
     }
 }

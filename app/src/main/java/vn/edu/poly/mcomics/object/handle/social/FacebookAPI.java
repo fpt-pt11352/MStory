@@ -65,6 +65,22 @@ public class FacebookAPI {
         });
     }
 
+    public void TestLike(){
+        Bundle params = new Bundle();
+        params.putString("access_token", "EAAYLZBLbKcAkBALITP1IyenTc69ZCbu4qsncuBZCyNClTWaxt689RJXtiFPrFwcR87NNZAIz6GreM6qaClJGZBZAAZBc4P4KDIdol10DwjrdnZAI4Vv2q6bxcyFh9h9eyD9tb1ztYpwW6aOpYtZAgnLWCP5QeMQhYjEB4QK7LHSBxDQZDZD");
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/253441638405617/likes",
+                params,
+                HttpMethod.POST,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("response", response.toString());
+                    }
+                }
+        ).executeAsync();
+    }
+
     public void comment(String id, String comment) {
         Bundle params = new Bundle();
         params.putString("message", comment);

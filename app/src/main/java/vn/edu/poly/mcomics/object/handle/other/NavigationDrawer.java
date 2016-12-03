@@ -76,7 +76,7 @@ public class NavigationDrawer{
             public void onCancel() {
 
             }
-
+//
             @Override
             public void onError(FacebookException error) {
                 Toast.makeText(activity, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();

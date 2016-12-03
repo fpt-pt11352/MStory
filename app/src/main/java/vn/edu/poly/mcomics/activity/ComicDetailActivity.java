@@ -1,11 +1,9 @@
 package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,34 +43,16 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        //new NavigationDrawer(this, (ViewGroup)findViewById(R.id.root));
         setContentView(R.layout.navigation_view);
-        new NavigationDrawer(this, R.layout.activity_comics_detail,(ViewGroup)findViewById(R.id.root).getParent());
-
+        new NavigationDrawer(this, R.layout.activity_comics_detail, (ViewGroup) findViewById(R.id.root).getParent());
         getView();
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-//        facebookAPI.buttonLike(
+//        facebookAPI.createLikeButton(
 //                ,
 //                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
         LikeView likeView = (LikeView) findViewById(R.id.likeView);
-        likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
-        likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
-        likeView.setObjectIdAndType("https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492", LikeView.ObjectType.PAGE);
-        likeView.setOnErrorListener(new LikeView.OnErrorListener() {
-            @Override
-            public void onError(FacebookException error) {
-                Log.e("error", error.toString());
-            }
-        });
-
-        facebookAPI.createLoginButton(
-                (LoginButton) findViewById(R.id.login),
-                null,
-                new String[]{"publish_actions"},
-                this
-        );
+        facebookAPI.createLikeButton(likeView, "https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492/");
 
         final Intent intent = getIntent();
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
@@ -90,48 +70,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
             }
         });
 
-        ((Button) findViewById(R.id.sendComment)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle params = new Bundle();
-                params.putString("message", "This is a test comment");
-                /* make the API call */
-                new GraphRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        "/253441638405617/comments",
-                        params,
-                        HttpMethod.POST,
-                        new GraphRequest.Callback() {
-                            public void onCompleted(GraphResponse response) {
-                                Log.e("send", response.toString());
-                            }
-                        }
-                ).executeAsync();
-            }
-        });
-
-        ((Button) findViewById(R.id.share)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GraphRequest request = GraphRequest.newPostRequest(AccessToken.getCurrentAccessToken(), "me/feed", null, new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        if (response.getError() == null) {
-                            Toast.makeText(getBaseContext(), "your status is updated", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getBaseContext(), "some thing wrong", Toast.LENGTH_SHORT).show();
-                            Log.e("here", response.getError().getErrorMessage().toString());
-                        }
-                    }
-                });
-                Bundle parameters = new Bundle();
-                parameters.putString("message",
-                        "i'm just trying to test the share function. " +
-                                "https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-        });
 
         txv_readMoreTop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,15 +77,12 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 showHideReview();
             }
         });
-
         txv_readMoreBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHideReview();
             }
         });
-
-
     }
 
     public void getView() {

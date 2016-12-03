@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -42,18 +43,18 @@ public class FacebookAPI {
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
-    public void createLoginButton(LoginButton loginButton, String [] readPermission, String [] publicPermission, FacebookCallback<LoginResult> facebookCallback) {
-        if(readPermission!= null){
+    public void createLoginButton(LoginButton loginButton, String[] readPermission, String[] publicPermission, FacebookCallback<LoginResult> facebookCallback) {
+        if (readPermission != null) {
             loginButton.setReadPermissions(Arrays.asList(readPermission));
         }
-        if(publicPermission!= null){
+        if (publicPermission != null) {
             loginButton.setPublishPermissions(Arrays.asList(publicPermission));
         }
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
-    public void buttonLike(LikeView likeView, String url){
-        likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
+    public void createLikeButton(LikeView likeView, String url) {
+        likeView.setLikeViewStyle(LikeView.Style.BUTTON);
         likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
         likeView.setObjectIdAndType(url, LikeView.ObjectType.PAGE);
         likeView.setOnErrorListener(new LikeView.OnErrorListener() {
@@ -64,24 +65,40 @@ public class FacebookAPI {
         });
     }
 
-    public void likeByRequest(){
+    public void comment(String id, String comment) {
         Bundle params = new Bundle();
-        params.putString("object", "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-        /* make the API call */
+        params.putString("message", comment);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/me/og.likes",
+                "/" + id + "/comments",
                 params,
                 HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Log.e("Error", response.toString());
+                        try {
+                            Toast.makeText(activity, response.getError() == null ? "Done" : "Fail", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("send", response.toString());
+                        }
                     }
                 }
         ).executeAsync();
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void share(String status) {
+        GraphRequest request = GraphRequest.newPostRequest(AccessToken.getCurrentAccessToken(), "me/feed", null, new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+                Toast.makeText(activity, response.getError()==null?"your status is updated":"Couldn't update your status", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("message", status);
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

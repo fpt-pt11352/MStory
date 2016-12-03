@@ -4,9 +4,9 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -25,13 +25,20 @@
                     android:paddingBottom="3dp"
                     android:weightSum="11">
 
-                    <ImageView
-                        android:id="@+id/imv_cover"
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="210dp"
+                        android:layout_height="match_parent"
                         android:layout_margin="4dp"
-                        android:layout_weight="5"
-                        android:src="@drawable/loading" />
+                        android:layout_weight="5">
+
+                        <ImageView
+                            android:id="@+id/imv_cover"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/loading" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -44,6 +51,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:gravity="center_horizontal"
                             android:orientation="horizontal">
 
@@ -68,13 +76,12 @@
                             <TextView
                                 style="@style/DetailText"
                                 android:layout_width="wrap_content"
-                                android:layout_height="25dp"
                                 android:text="Tác giả"
                                 android:textStyle="bold" />
 
                             <TextView
+                                style="@style/DetailText"
                                 android:layout_width="5dp"
-                                android:layout_height="25dp"
                                 android:gravity="center_vertical"
                                 android:text=":" />
 
@@ -97,13 +104,12 @@
                             <TextView
                                 style="@style/DetailText"
                                 android:layout_width="wrap_content"
-                                android:layout_height="25dp"
                                 android:text="Thể loài "
                                 android:textStyle="bold" />
 
                             <TextView
+                                style="@style/DetailText"
                                 android:layout_width="5dp"
-                                android:layout_height="25dp"
                                 android:gravity="center_vertical"
                                 android:text=":" />
 
@@ -126,13 +132,12 @@
                             <TextView
                                 style="@style/DetailText"
                                 android:layout_width="wrap_content"
-                                android:layout_height="20dp"
                                 android:text="Số chap "
                                 android:textStyle="bold" />
 
                             <TextView
+                                style="@style/DetailText"
                                 android:layout_width="5dp"
-                                android:layout_height="20dp"
                                 android:gravity="center_vertical"
                                 android:text=":" />
 
@@ -155,13 +160,12 @@
                             <TextView
                                 style="@style/DetailText"
                                 android:layout_width="wrap_content"
-                                android:layout_height="20dp"
                                 android:text="Lượt đọc "
                                 android:textStyle="bold" />
 
                             <TextView
+                                style="@style/DetailText"
                                 android:layout_width="5dp"
-                                android:layout_height="20dp"
                                 android:gravity="center_vertical"
                                 android:text=":" />
 
@@ -178,51 +182,82 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp">
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
 
                             <Button
                                 android:id="@+id/btnDoctruyen"
                                 android:layout_width="0dp"
-                                android:layout_height="40dp"
+                                android:layout_height="45dp"
                                 android:layout_weight="1"
                                 android:drawableLeft="@drawable/ic_import_contacts_black_24dp"
                                 android:text="Đọc" />
                         </LinearLayout>
-                        <!--like share comment-->
-                        <LinearLayout
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <!--like share comment-->
+                <LinearLayout
+                    android:padding="3dp"
+                    android:layout_marginTop="1dp"
+                    android:background="#FFFFFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="12">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="4">
+
+                        <com.facebook.share.widget.LikeView
+                            android:id="@+id/likeView"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4">
+
+                        <TextView
+                            android:id="@+id/comment"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="4"
+                            android:background="#365899"
+                            android:gravity="center"
+                            android:text="Comment"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="4">
+
+                        <com.facebook.share.widget.ShareButton
+                            android:id="@+id/share"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
-                            android:orientation="vertical">
-
-                            <com.facebook.share.widget.LikeView
-                                android:id="@+id/likeView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <com.facebook.login.widget.LoginButton
-                                android:id="@+id/login"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"></com.facebook.login.widget.LoginButton>
-
-                            <Button
-                                android:id="@+id/sendComment"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="send test comment" />
-
-                            <Button
-                                android:id="@+id/share"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Share" />
-                        </LinearLayout>
-
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="4" />
                     </LinearLayout>
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -271,7 +306,6 @@
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
-
 
 
 </FrameLayout>

@@ -1,5 +1,6 @@
 package vn.edu.poly.mcomics.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -36,7 +37,7 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
         text = (TextView) findViewById(R.id.text);
         LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
         backgroundTask.setOnFinishEvent(this);
-        backgroundTask.execute("http://grayguy.xyz/?kind=by_kind&comic_kind=" + getIntent().getExtras().getInt("id") + "&from=0&to=10");
+        backgroundTask.execute("http://grayguy.xyz/?kind=by_kind&comic_kind=" + getIntent().getExtras().getInt("id") + "&from=0&to=50");
 
     }
 
@@ -58,5 +59,11 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+       // facebookAPI.onActivityResult(requestCode, resultCode, data);
     }
 }

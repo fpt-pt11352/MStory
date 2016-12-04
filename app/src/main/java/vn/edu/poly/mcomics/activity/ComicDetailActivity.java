@@ -3,23 +3,14 @@ package vn.edu.poly.mcomics.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -29,15 +20,20 @@ import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
+import vn.edu.poly.mcomics.object.handle.other.Show;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
+import vn.edu.poly.mcomics.object.handle.social.FacebookHandle;
 import vn.edu.poly.mcomics.object.variable.Comics;
+import vn.edu.poly.mcomics.object.variable.FacebookContent;
 
-public class ComicDetailActivity extends AppCompatActivity implements DownloadEvent, FacebookCallback<LoginResult> {
+public class ComicDetailActivity extends AppCompatActivity implements DownloadEvent {
     private Button btn_openComics;
     private FacebookAPI facebookAPI;
     private boolean isShow;
     private TextView txv_readMoreTop, txv_readMoreBottom, txv_review;
     private NavigationDrawer navigationDrawer;
+    private String id;
+    private Comics comics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,44 +43,19 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         setContentView(R.layout.navigation_view);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comics_detail, (ViewGroup) findViewById(R.id.root).getParent());
         getView();
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-//        facebookAPI.createLikeButton(
-//                ,
-//                "https://www.facebook.com/permalink.php?story_fbid=252253451857769&id=252252888524492");
-        ((TextView) findViewById(R.id.like)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facebookAPI.like("253441638405617");
-            }
-        });
 
-        ((TextView)findViewById(R.id.comment)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facebookAPI.comment("253441638405617", "abc123");
-            }
-        });
+        id = getIntent().getExtras().getString("id");
+        Show.log("id", id);
 
-        ((TextView)findViewById(R.id.share)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facebookAPI.share("253441638405617", "Test share function last time. https://www.facebook.com/permalink.php?story_fbid=253441638405617&id=252252888524492&substory_index=0");
-            }
-        });
-
-        final Intent intent = getIntent();
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(this);
-        loadJson.execute("http://grayguy.xyz/?kind=comics_detail&id=" + intent.getExtras().
-                getString("id")
-        );
+        loadJson.execute("http://grayguy.xyz/?kind=comics_detail&id=" + id);
 
         btn_openComics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getBaseContext(), ComicChaptersActivity.class);
-                intent2.putExtra("id", intent.getStringExtra("id"));
+                intent2.putExtra("id", id);
                 startActivity(intent2);
             }
         });
@@ -95,6 +66,82 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 showHideReview();
             }
         });
+        createSocial();
+    }
+
+    public void createSocial() {
+        if (!facebookAPI.isLogined()) {
+            return;
+        }
+        LoadJsonInBackground loadJson = new LoadJsonInBackground();
+        loadJson.setOnFinishEvent(new DownloadEvent() {
+            @Override
+            public void onLoadFinish(String string) {
+                Show.log("createSocial.onLoadFinish", string);
+                ParserJSON parserJSON = new ParserJSON();
+                final FacebookContent fbInfo;
+                try {
+                    fbInfo = parserJSON.getFacebookContentInfo(string);
+                    ((LinearLayout) findViewById(R.id.ll_social)).setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                TextView like = (TextView) findViewById(R.id.like);
+                TextView comment = (TextView) findViewById(R.id.comment);
+                TextView share = (TextView) findViewById(R.id.share);
+
+                final String fbShortId = fbInfo.getFbShortId();
+                facebookAPI.showCount(fbShortId, FacebookHandle.LIKES, like);
+                like.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        facebookAPI.like(fbInfo.getFbShortId());
+                    }
+                });
+
+                facebookAPI.showCount(fbShortId, FacebookHandle.COMMENTS, comment);
+                comment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // facebookAPI.comment(fbShortId, comics.getComicsName()+" - MComics app");
+                        LinearLayout ll_comment = ((LinearLayout) findViewById(R.id.ll_comment));
+                        LinearLayout ll_review = ((LinearLayout) findViewById(R.id.ll_review));
+                        EditText editText = (EditText)findViewById(R.id.edtx_input);
+                        if (ll_review.getVisibility() == View.VISIBLE) {
+                            ll_review.setVisibility(View.GONE);
+                            ll_comment.setVisibility(View.VISIBLE);
+                            editText.setEnabled(true);
+                        }else {
+                            ll_comment.setVisibility(View.GONE);
+                            ll_review.setVisibility(View.VISIBLE);
+                            editText.setEnabled(false);
+                        }
+                    }
+                });
+
+                facebookAPI.showFbCommentList(fbInfo.getFbShortId(), R.id.ll_commentList);
+
+                final TextView btn_send = ((TextView)findViewById(R.id.txv_send));
+                final EditText input =  ((EditText)findViewById(R.id.edtx_input));
+                btn_send.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        facebookAPI.comment(fbInfo.getFbShortId(), input.getText().toString());
+                        input.setText("");
+                    }
+                });
+
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        facebookAPI.share(fbShortId, comics.getComicsName() + " - MComics app. " + fbInfo.getFb_link());
+                    }
+                });
+            }
+        });
+        loadJson.execute("http://grayguy.xyz/?kind=fb_content_info&id=" + id);
+
     }
 
     public void getView() {
@@ -126,12 +173,13 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         facebookAPI.onActivityResult(requestCode, resultCode, data);
+        createSocial();
     }
 
     @Override
     public void onLoadFinish(String string) {
         try {
-            Comics comics = new ParserJSON().getComic(new JSONArray(string).getJSONObject(0));
+            comics = new ParserJSON().getComic(new JSONArray(string).getJSONObject(0));
             Picasso.with(this).load(comics.getThumbnail()).resize(400, 600).error(R.mipmap.bia).into(((ImageView) findViewById(R.id.imv_cover)));
             ((TextView) findViewById(R.id.txv_name)).setText(comics.getComicsName());
             ((TextView) findViewById(R.id.txv_author)).setText(comics.getAuthor());
@@ -142,20 +190,5 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onSuccess(LoginResult loginResult) {
-
-    }
-
-    @Override
-    public void onCancel() {
-
-    }
-
-    @Override
-    public void onError(FacebookException error) {
-
     }
 }

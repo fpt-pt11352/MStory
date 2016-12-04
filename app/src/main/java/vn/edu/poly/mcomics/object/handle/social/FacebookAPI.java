@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +22,13 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import vn.edu.poly.mcomics.R;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.other.Show;
+import vn.edu.poly.mcomics.object.variable.FaceBookComment;
 
 /**
  * Created by lucius on 30/11/2016.
@@ -47,14 +53,14 @@ public class FacebookAPI {
 
     public void createLoginButton(LoginButton loginButton, FacebookCallback<LoginResult> facebookCallback) {
         loginButton.setPublishPermissions(Arrays.asList(new String[]{
-                        "user_posts" ,
-                        "email" ,
-                        "manage_pages" ,
-                        "publish_pages" ,
-                        "business_management" ,
-                        "pages_messaging" ,
-                        "pages_messaging_payments" ,
-                        "public_profile"}));
+                "user_posts",
+                "email",
+                "manage_pages",
+                "publish_pages",
+                "business_management",
+                "pages_messaging",
+                "pages_messaging_payments",
+                "public_profile"}));
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
@@ -68,6 +74,25 @@ public class FacebookAPI {
         loginButton.registerCallback(callbackManager, facebookCallback);
     }
 
+    public void showCount(String objectId, final String action, final TextView textView) {
+        fbHandle.getCount(objectId, action, new DownloadEvent() {
+            @Override
+            public void onLoadFinish(String string) {
+                if (Integer.valueOf(string) == 0) {
+                    return;
+                }
+                String name;
+                if (action.equals(FacebookHandle.LIKES)) {
+                    name = "liked";
+                } else {
+                    name = "commented";
+                }
+                textView.setText(name + " (" + string + ")");
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            }
+        });
+    }
+
     public void like(final String objectId) {
         Bundle params = new Bundle();
         params.putString("access_token", access_token);
@@ -76,12 +101,7 @@ public class FacebookAPI {
                     public void onCompleted(GraphResponse response) {
                         Show.log("response", response.toString());
                         if (response.toString().indexOf("\"success\":true") != -1) {
-                            fbHandle.getCount(objectId, FacebookHandle.LIKES, new DownloadEvent() {
-                                @Override
-                                public void onLoadFinish(String string) {
-                                    ((TextView) activity.findViewById(R.id.like)).setText("Liked (" + string + ")");
-                                }
-                            });
+                            showCount(objectId, FacebookHandle.LIKES, (TextView) activity.findViewById(R.id.like));
                         } else {
                             Show.toastSHORT(activity, "Fail");
                         }
@@ -90,14 +110,15 @@ public class FacebookAPI {
         ).executeAsync();
     }
 
-    public void comment(String id, String comment) {
+    public void comment(final String id, String comment) {
         Bundle params = new Bundle();
         params.putString("message", comment);
         new GraphRequest(AccessToken.getCurrentAccessToken(), "/" + id + "/comments", params, HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         try {
-                            Toast.makeText(activity, response.getError() == null ? "Done" : "Fail", Toast.LENGTH_SHORT).show();
+                            showCount(id, FacebookHandle.COMMENTS, (TextView) activity.findViewById(R.id.comment));
+                            showFbCommentList(id, R.id.ll_commentList);
                         } catch (Exception e) {
                             Log.e("send", response.toString());
                         }
@@ -110,12 +131,10 @@ public class FacebookAPI {
         GraphRequest request = GraphRequest.newPostRequest(AccessToken.getCurrentAccessToken(), "me/feed", null, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {
-                fbHandle.getCount(objectId, FacebookHandle.LIKES, new DownloadEvent() {
-                    @Override
-                    public void onLoadFinish(String string) {
-                        ((TextView) activity.findViewById(R.id.share)).setText("Shared (" + string + ")");
-                    }
-                });
+                Show.log("share.réponse", response.toString());
+                if (response.getError() == null) {
+                    Show.toastSHORT(activity, "Chia sẻ thành công");
+                }
             }
         });
         Bundle parameters = new Bundle();
@@ -126,6 +145,34 @@ public class FacebookAPI {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showFbCommentList(String objectId, final int view) {
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/" + objectId + "/comments", null, HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            ArrayList<FaceBookComment> list = fbHandle.getFbCommentList(response.getJSONObject().getJSONArray("data"));
+                            ViewGroup parent = (ViewGroup) activity.findViewById(view);
+
+                            for (int x = 0; x < list.size(); x++) {
+                                FaceBookComment temp  = list.get(x);
+                                View cmt = ((LayoutInflater.from(activity)).inflate(R.layout.comment_view, parent, false));
+                                ((TextView)cmt.findViewById(R.id.name)).setText(temp.getUserName());
+                                ((TextView)cmt.findViewById(R.id.txv_comment)).setText(temp.getUserMessage());
+                                ((TextView)cmt.findViewById(R.id.txv_time)).setText(temp.getTime().substring(0,temp.getTime().indexOf("+")));
+                                parent.addView(cmt, x);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).executeAsync();
+    }
+
+    public boolean isLogined() {
+        return AccessToken.getCurrentAccessToken() != null;
     }
 
 }

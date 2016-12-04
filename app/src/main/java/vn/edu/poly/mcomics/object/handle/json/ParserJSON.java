@@ -1,25 +1,25 @@
 package vn.edu.poly.mcomics.object.handle.json;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import vn.edu.poly.mcomics.object.handle.other.Show;
 import vn.edu.poly.mcomics.object.variable.Comics;
 import vn.edu.poly.mcomics.object.variable.ComicsKind;
 import vn.edu.poly.mcomics.object.variable.Content;
+import vn.edu.poly.mcomics.object.variable.FacebookContent;
 
 /**
  * Created by lucius on 11/16/16.
  */
 
 public class ParserJSON {
-    public ArrayList<Comics> getComicArray(String json) throws JSONException {
+    public ArrayList<Comics> getComicArray(String JSON) throws JSONException {
         ArrayList<Comics> comicsArray = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray(json);
+        JSONArray jsonArray = new JSONArray(JSON);
         for (int x = 0; x < jsonArray.length(); x++) {
             comicsArray.add(getComic(jsonArray.getJSONObject(x)));
         }
@@ -51,7 +51,7 @@ public class ParserJSON {
                 jsonObject.getString("kind_name"));
     }
 
-    public ArrayList<Integer> getChapterArray(String json) throws JSONException{
+    public ArrayList<Integer> getChapterArray(String json) throws JSONException {
         ArrayList<Integer> chapterArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(json);
         for (int x = 0; x < jsonArray.length(); x++) {
@@ -60,16 +60,24 @@ public class ParserJSON {
         return chapterArray;
     }
 
-    public ArrayList<Content> getPage(String json) throws JSONException{
-
+    public ArrayList<Content> getPage(String json) throws JSONException {
         ArrayList<Content> list = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(json);
-        for(int x = 0; x < jsonArray.length(); x++){
+        for (int x = 0; x < jsonArray.length(); x++) {
             int page = Integer.parseInt(jsonArray.getJSONObject(x).getString("page_number"));
             String link = jsonArray.getJSONObject(x).getString("link");
             list.add(new Content(page, link));
         }
-
         return list;
+    }
+
+    public FacebookContent getFacebookContentInfo(String JSON) throws JSONException {
+        JSONObject jsonObject = new JSONArray(JSON).getJSONObject(0);
+        Show.log("getFbContentInfo", jsonObject.toString());
+        return new FacebookContent(
+                jsonObject.getString("comics_master_id"),
+                jsonObject.getString("fb_short_id"),
+                jsonObject.getString("fb_long_id"),
+                jsonObject.getString("fb_link"));
     }
 }

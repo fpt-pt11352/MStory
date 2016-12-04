@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         createLoadingFragment();
         startLoadData();

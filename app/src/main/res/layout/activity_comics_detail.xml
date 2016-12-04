@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -203,12 +204,14 @@
 
                 <!--like share comment-->
                 <LinearLayout
-                    android:padding="3dp"
-                    android:layout_marginTop="1dp"
-                    android:background="#FFFFFF"
+                    android:id="@+id/ll_social"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="#FFFFFF"
                     android:orientation="horizontal"
+                    android:padding="3dp"
+                    android:visibility="gone"
                     android:weightSum="12">
 
                     <LinearLayout
@@ -272,9 +275,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/ll_review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="1dp"
+                    android:layout_marginTop="3dp"
                     android:background="#FFFFFF"
                     android:orientation="vertical"
                     android:paddingBottom="22dp"
@@ -315,6 +319,60 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:padding="10dp">
+
+                        <EditText
+                            android:id="@+id/edtx_input"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginRight="3dp"
+                            android:layout_toLeftOf="@+id/txv_send"
+                            android:layout_toStartOf="@+id/txv_send"
+                            android:background="#e3f2fd"
+                            android:enabled="false"
+                            android:minLines="4"
+                            android:padding="3dp"
+                            android:textColor="#0d47a1"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/txv_send"
+                            android:layout_width="55dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:background="#365899"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="Gửi"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_commentList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"></LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
     </FrameLayout>

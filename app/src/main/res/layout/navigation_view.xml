@@ -35,19 +35,15 @@
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/fb_login"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </com.facebook.login.widget.LoginButton>
 
         <com.facebook.share.widget.ShareButton
             android:id="@+id/fb_share"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnAbout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thông tin ứng dụng"/>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

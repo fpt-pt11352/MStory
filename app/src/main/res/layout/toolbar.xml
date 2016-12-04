@@ -36,7 +36,7 @@
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:padding="5dp"
-                android:textSize="20dp"
+                android:textSize="21dp"
                 android:textStyle="bold"/>
 
             <EditText
@@ -46,7 +46,6 @@
                 android:hint="Tìm kiếm ..."
                 android:textColor="#ffffff"/>
         </FrameLayout>
-//
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

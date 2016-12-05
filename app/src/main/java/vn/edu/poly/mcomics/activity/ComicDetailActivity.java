@@ -80,10 +80,15 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 Show.log("createSocial.onLoadFinish", string);
                 ParserJSON parserJSON = new ParserJSON();
                 final FacebookContent fbInfo;
+                LinearLayout ll_social = ((LinearLayout) findViewById(R.id.ll_social));
+                LinearLayout ll_login = ((LinearLayout) findViewById(R.id.ll_login));
                 try {
                     fbInfo = parserJSON.getFacebookContentInfo(string);
-                    ((LinearLayout) findViewById(R.id.ll_social)).setVisibility(View.VISIBLE);
+                    ll_social.setVisibility(View.VISIBLE);
+                    ll_login.setVisibility(View.GONE);
                 } catch (Exception e) {
+                    ll_social.setVisibility(View.GONE);
+                    ll_login.setVisibility(View.VISIBLE);
                     e.printStackTrace();
                     return;
                 }
@@ -107,12 +112,12 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                         // facebookAPI.comment(fbShortId, comics.getComicsName()+" - MComics app");
                         LinearLayout ll_comment = ((LinearLayout) findViewById(R.id.ll_comment));
                         LinearLayout ll_review = ((LinearLayout) findViewById(R.id.ll_review));
-                        EditText editText = (EditText)findViewById(R.id.edtx_input);
+                        EditText editText = (EditText) findViewById(R.id.edtx_input);
                         if (ll_review.getVisibility() == View.VISIBLE) {
                             ll_review.setVisibility(View.GONE);
                             ll_comment.setVisibility(View.VISIBLE);
                             editText.setEnabled(true);
-                        }else {
+                        } else {
                             ll_comment.setVisibility(View.GONE);
                             ll_review.setVisibility(View.VISIBLE);
                             editText.setEnabled(false);
@@ -122,8 +127,8 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
 
                 facebookAPI.showFbCommentList(fbInfo.getFbShortId(), R.id.ll_commentList);
 
-                final TextView btn_send = ((TextView)findViewById(R.id.txv_send));
-                final EditText input =  ((EditText)findViewById(R.id.edtx_input));
+                final TextView btn_send = ((TextView) findViewById(R.id.txv_send));
+                final EditText input = ((EditText) findViewById(R.id.edtx_input));
                 btn_send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

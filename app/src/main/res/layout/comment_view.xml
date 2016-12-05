@@ -5,13 +5,13 @@
     android:orientation="horizontal">
 
     <RelativeLayout
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:background="#FFFFFF"
-        android:paddingTop="3dp"
         android:paddingLeft="3dp"
-        android:paddingRight="3dp">
+        android:paddingRight="3dp"
+        android:paddingTop="3dp">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -24,8 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="name"
-                android:textSize="15sp"
                 android:textColor="#3B5998"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,27 +38,28 @@
             android:id="@+id/txv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/txv_comment"
-            android:layout_marginRight="8dp"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:layout_toLeftOf="@+id/txv_comment"
+            android:layout_toRightOf="@+id/linearLayout"
+            android:gravity="bottom"
             android:text="time"
             android:textColor="#bdbdbd"
             android:textSize="8sp"
-            android:gravity="bottom"
-            android:textStyle="italic|bold" />
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txv_comment"
             android:layout_width="100dp"
-            android:textSize="15sp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:layout_toRightOf="@+id/linearLayout"
             android:minHeight="20dp"
             android:paddingLeft="3dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/linearLayout"
-            android:layout_toEndOf="@+id/linearLayout"
-            android:layout_alignParentTop="true" />
+            android:textSize="15sp" />
     </RelativeLayout>
 </LinearLayout>

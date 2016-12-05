@@ -1,13 +1,16 @@
 package vn.edu.poly.mcomics.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import org.json.JSONException;
 
@@ -27,6 +30,10 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
     private NavigationDrawer navigationDrawer;
     private FacebookAPI facebookAPI;
     private Toolbar toolbar;
+    private Activity activity;
+    private LayoutInflater inflater;
+    private ViewGroup parent;
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,16 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
         facebookAPI.init();
         setContentView(R.layout.navigation_view);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comic_chapters, (ViewGroup) (findViewById(R.id.root).getParent()));
+//        view = (inflater.inflate(R.layout.activity_comic_chapters, parent, false));
+//        toolbar = (Toolbar) findViewById(R.id.toolBar);
+//        toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
+//                .findViewById(R.id.toolBar);
+//        ((LinearLayout) view).removeViewAt(toolbar);
+//        LinearLayout layout = new LinearLayout(this);
+//        layout.removeViewAt(R.layout.toolbar);
+//        LinearLayout aCtionBar=new LinearLayout(activity);
+//
+//        ((LinearLayout) view).addView(aCtionBar, 0);
         comicId = getIntent().getStringExtra("id");
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(this);

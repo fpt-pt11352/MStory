@@ -1,70 +1,88 @@
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolBar"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@color/actionBar"
-    >
-    //
+<!--<LinearLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/aCtionBar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical">-->
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <ImageView
-            android:id="@+id/navigation_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_launcher"
-            />
+        android:layout_height="40dp"
+        android:background="@color/actionBar"
+        >
+        //
 
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
-            <TextView
-                android:id="@+id/txv_AppName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:text="Mstory"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:padding="5dp"
-                android:textSize="21dp"
-                android:textStyle="bold"/>
-
-            <EditText
-                android:id="@+id/ed_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Tìm kiếm ..."
-                android:textColor="#ffffff"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageView
-
-                android:id="@+id/img_v_search"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_search"
-                />
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/img_v_searched"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_search"
-                />
+                <ImageView
+                    android:id="@+id/navigation_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_launcher"
+                    />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8">
+
+                    <TextView
+                        android:id="@+id/txv_AppName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:padding="5dp"
+                        android:text="Mstory"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="21dp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/ed_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Tìm kiếm ..."
+                        android:textColor="#ffffff"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+
+                        android:id="@+id/img_v_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:src="@android:drawable/ic_menu_search"
+                        />
+
+                    <ImageView
+                        android:id="@+id/img_v_searched"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:src="@android:drawable/ic_menu_search"
+                        />
+                </FrameLayout>
+            </LinearLayout>
         </FrameLayout>
-    </LinearLayout>
-</android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
+<!--</LinearLayout>-->

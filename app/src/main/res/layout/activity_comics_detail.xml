@@ -244,6 +244,8 @@
                             android:background="#365899"
                             android:gravity="center"
                             android:text="Like"
+                            android:onClick="onClick"
+                            android:clickable="true"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
 

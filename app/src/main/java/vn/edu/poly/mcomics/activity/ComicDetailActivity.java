@@ -1,15 +1,18 @@
 package vn.edu.poly.mcomics.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -92,6 +95,9 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                     e.printStackTrace();
                     return;
                 }
+                final Animation myAnimation = AnimationUtils.loadAnimation(getBaseContext(), R.anim
+                        .fade_in);
+
                 TextView like = (TextView) findViewById(R.id.like);
                 TextView comment = (TextView) findViewById(R.id.comment);
                 TextView share = (TextView) findViewById(R.id.share);
@@ -101,6 +107,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 like.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        v.startAnimation(myAnimation);
                         facebookAPI.like(fbInfo.getFbShortId());
                     }
                 });
@@ -109,6 +116,8 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 comment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        v.startAnimation(myAnimation);
+
                         // facebookAPI.comment(fbShortId, comics.getComicsName()+" - MComics app");
                         LinearLayout ll_comment = ((LinearLayout) findViewById(R.id.ll_comment));
                         LinearLayout ll_review = ((LinearLayout) findViewById(R.id.ll_review));
@@ -140,6 +149,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        v.startAnimation(myAnimation);
                         facebookAPI.share(fbShortId, comics.getComicsName() + " - MComics app. " + fbInfo.getFb_link());
                     }
                 });

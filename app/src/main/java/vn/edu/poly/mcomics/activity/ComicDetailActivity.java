@@ -72,34 +72,37 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     }
 
     public void createSocial() {
-        if (!facebookAPI.isLogined()) {
+        if (!facebookAPI.isLogged()) {
             return;
         }
-            LoadJsonInBackground loadJson = new LoadJsonInBackground();
-            loadJson.setOnFinishEvent(new DownloadEvent() {
+        LoadJsonInBackground loadJson = new LoadJsonInBackground();
+        loadJson.setOnFinishEvent(new DownloadEvent() {
             @Override
             public void onLoadFinish(String string) {
                 Show.log("createSocial.onLoadFinish", string);
                 ParserJSON parserJSON = new ParserJSON();
                 final FacebookContent fbInfo;
+
                 LinearLayout ll_social = ((LinearLayout) findViewById(R.id.ll_social));
                 LinearLayout ll_login = ((LinearLayout) findViewById(R.id.ll_login));
+                TextView like = (TextView) findViewById(R.id.like);
+                TextView comment = (TextView) findViewById(R.id.comment);
+                TextView share = (TextView) findViewById(R.id.share);
+
                 try {
-                    fbInfo = parserJSON.getFacebookContentInfo(string);
                     ll_social.setVisibility(View.VISIBLE);
                     ll_login.setVisibility(View.GONE);
+                    fbInfo = parserJSON.getFacebookContentInfo(string);
                 } catch (Exception e) {
-                    ll_social.setVisibility(View.GONE);
-                    ll_login.setVisibility(View.VISIBLE);
+                    ll_social.setAlpha(0.7f);
+                    like.setClickable(false);
+                    comment.setClickable(false);
+                    share.setClickable(false);
                     e.printStackTrace();
                     return;
                 }
                 final Animation myAnimation = AnimationUtils.loadAnimation(getBaseContext(), R.anim
                         .scale);
-
-                TextView like = (TextView) findViewById(R.id.like);
-                TextView comment = (TextView) findViewById(R.id.comment);
-                TextView share = (TextView) findViewById(R.id.share);
 
                 final String fbShortId = fbInfo.getFbShortId();
                 facebookAPI.showCount(fbShortId, FacebookHandle.LIKES, like);

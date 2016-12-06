@@ -28,11 +28,6 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
     private String comicId;
     private NavigationDrawer navigationDrawer;
     private FacebookAPI facebookAPI;
-    private Toolbar toolbar;
-    private Activity activity;
-    private LayoutInflater inflater;
-    private ViewGroup parent;
-    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +36,7 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
         facebookAPI.init();
         setContentView(R.layout.view_navigation);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comic_chapters, (ViewGroup) (findViewById(R.id.root).getParent()));
-//        view = (inflater.inflate(R.layout.activity_comic_chapters, parent, false));
-//        view_toolbar = (Toolbar) findViewById(R.id.toolBar);
-//        view_toolbar = (Toolbar) inflater.inflate(R.layout.view_toolbar, ((ViewGroup) view), false)
-//                .findViewById(R.id.toolBar);
-//        ((LinearLayout) view).removeViewAt(view_toolbar);
-//        LinearLayout layout = new LinearLayout(this);
-//        layout.removeViewAt(R.layout.view_toolbar);
-//        LinearLayout aCtionBar=new LinearLayout(activity);
-//
-//        ((LinearLayout) view).addView(aCtionBar, 0);
+
         comicId = getIntent().getStringExtra("id");
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(this);

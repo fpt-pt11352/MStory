@@ -34,9 +34,6 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
         setContentView(R.layout.view_navigation);
         new NavigationDrawer(this, R.layout.activity_comics_category, (ViewGroup) (findViewById(R.id.root)).getParent());
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-
         text = (TextView) findViewById(R.id.text);
         LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
         backgroundTask.setOnFinishEvent(this);

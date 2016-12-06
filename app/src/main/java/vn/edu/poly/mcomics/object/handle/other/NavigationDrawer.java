@@ -51,10 +51,11 @@ public class NavigationDrawer implements View.OnClickListener {
     private FacebookAPI facebookAPI;
     private LoginButton loginButton;
     private TextView txv_log;
+    protected SeekBar seekBar;
 
     private final int REQUEST_CODE = 200;
     private TableRow btn_likes, btn_shares, btn_log, btn_brightness, btn_viewMode;
-    private final float ONE_PERCENT = 255 / 100;
+    private final float ONE_PERCENT = 255f / 100f;
 
     public NavigationDrawer(final Activity activity, int layout, ViewGroup viewGroup) {
         this.activity = activity;
@@ -122,12 +123,12 @@ public class NavigationDrawer implements View.OnClickListener {
 
         ((LinearLayout) dialog.findViewById(R.id.dialog_brightness)).getLayoutParams().width = (int) (getScreenWidth() * 0.90);
 
-        SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.sbBrightness);
+        seekBar = (SeekBar) dialog.findViewById(R.id.sbBrightness);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, (int) (progress * ONE_PERCENT));
-                ((TextView) dialog.findViewById(R.id.txv_currentBrightness)).setText(progress + "");
+                Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, progress);
+                ((TextView) dialog.findViewById(R.id.txv_currentBrightness)).setText((int) (progress/ONE_PERCENT)+"");
             }
 
             @Override
@@ -140,6 +141,7 @@ public class NavigationDrawer implements View.OnClickListener {
 
             }
         });
+
     }
 
     public int getScreenWidth() {
@@ -224,6 +226,8 @@ public class NavigationDrawer implements View.OnClickListener {
     }
 
     public void brightnessClicked() {
+        int currentBrightness = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, -1);
+        seekBar.setProgress(currentBrightness);
         dialog.show();
     }
 

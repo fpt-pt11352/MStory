@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_brightness"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:id="@+id/dialog_brightness"
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -31,16 +31,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:text="0%"
-                android:textStyle="bold"
-                android:textSize="16sp"></TextView>
+                android:text="0"
+                android:textSize="16sp"
+                android:textStyle="bold"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="%"
+                android:textSize="16sp"
+                android:textStyle="bold"></TextView>
         </LinearLayout>
 
         <SeekBar
-            android:layout_gravity="center"
             android:id="@+id/sbBrightness"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100" />
+            android:layout_gravity="center"
+            android:max="255" />
     </LinearLayout>
 </LinearLayout>

@@ -37,7 +37,7 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
         text = (TextView) findViewById(R.id.text);
         LoadJsonInBackground backgroundTask = new LoadJsonInBackground();
         backgroundTask.setOnFinishEvent(this);
-        backgroundTask.execute("http://grayguy.xyz/?kind=by_kind&comic_kind=" + getIntent().getExtras().getInt("id") + "&from=0&to=50");
+        backgroundTask.execute("http://grayguy.xyz/?kind=by_kind&comic_kind=" + getIntent().getExtras().getInt("id"));
 
     }
 

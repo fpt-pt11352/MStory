@@ -1,20 +1,12 @@
-<!--<LinearLayout--><!--xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:id="@+id/aCtionBar"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:orientation="vertical">-->
-
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolBar"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:background="@color/actionBar">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -65,5 +57,4 @@
                     android:src="@android:drawable/ic_menu_search" />
             </FrameLayout>
         </LinearLayout>
-    </FrameLayout>
 </android.support.v7.widget.Toolbar><!--</LinearLayout>-->

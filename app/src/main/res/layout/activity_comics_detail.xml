@@ -225,7 +225,7 @@
                     android:background="#FFFFFF"
                     android:orientation="horizontal"
                     android:padding="5dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:weightSum="12">
 
                     <LinearLayout

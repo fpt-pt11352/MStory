@@ -93,6 +93,10 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                     ll_social.setVisibility(View.VISIBLE);
                     ll_login.setVisibility(View.GONE);
                     fbInfo = parserJSON.getFacebookContentInfo(string);
+                    ll_social.setAlpha(1);
+                    like.setClickable(true);
+                    comment.setClickable(true);
+                    share.setClickable(true);
                 } catch (Exception e) {
                     ll_social.setAlpha(0.7f);
                     like.setClickable(false);

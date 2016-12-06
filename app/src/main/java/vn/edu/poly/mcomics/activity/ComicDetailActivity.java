@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -43,7 +42,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        setContentView(R.layout.navigation_view);
+        setContentView(R.layout.view_navigation);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comics_detail, (ViewGroup) findViewById(R.id.root).getParent());
         getView();
 

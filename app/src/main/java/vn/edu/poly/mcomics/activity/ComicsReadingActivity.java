@@ -1,6 +1,5 @@
 package vn.edu.poly.mcomics.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +34,7 @@ public class ComicsReadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        setContentView(R.layout.navigation_view);
+        setContentView(R.layout.view_navigation);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comics_reading, (ViewGroup) (findViewById(R.id.root).getParent()));
 
         Intent intent = getIntent();
@@ -43,7 +42,7 @@ public class ComicsReadingActivity extends AppCompatActivity {
         chapter = intent.getIntExtra("chapter", 0) + "";
         recyclerView = (RecyclerView) findViewById(R.id.cardView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplication());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.setHasFixedSize(true);
         LoadJsonInBackground loadJsonInBackground = new LoadJsonInBackground();

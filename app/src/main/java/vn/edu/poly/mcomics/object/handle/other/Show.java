@@ -18,6 +18,6 @@ public final class Show {
 
     public static void log(String tag, String content){
         Log.e(tag, content);
-    }
+}
 
 }

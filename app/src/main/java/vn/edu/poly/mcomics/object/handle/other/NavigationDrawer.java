@@ -68,14 +68,14 @@ public class NavigationDrawer {
         view = (inflater.inflate(layout, parent, false));
 
         ((AppCompatActivity) activity).getSupportActionBar().hide();
-        toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
+        toolbar = (Toolbar) inflater.inflate(R.layout.view_toolbar, ((ViewGroup) view), false)
                 .findViewById(R.id.toolBar);
         ((LinearLayout) parent.findViewById(R.id.lyInformatipn_app)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Dialog dialogAA = new Dialog(activity);
                 dialogAA.setTitle("Thông tin nhóm 1");
-                dialogAA.setContentView(R.layout.information_app);
+                dialogAA.setContentView(R.layout.view_information_app);
                 dialogAA.getWindow().setLayout(1000,1200);
                 dialogAA.show();
 
@@ -244,7 +244,7 @@ public class NavigationDrawer {
     public void clickBrightness() {
         dialog = new Dialog(activity);
         dialog.setTitle("Thay đổi độ sáng");
-        dialog.setContentView(R.layout.change_brightness);
+        dialog.setContentView(R.layout.view_change_brightness);
         SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.sbBrightness);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

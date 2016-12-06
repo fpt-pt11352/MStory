@@ -48,7 +48,7 @@ public class ChapterListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
-        view = (LayoutInflater.from(activity)).inflate(R.layout.chapter_view_item, parent, false);
+        view = (LayoutInflater.from(activity)).inflate(R.layout.view_chapter_item, parent, false);
         TextView textView = ((TextView) view.findViewById(R.id.text));
         textView.setText("Chapter " + list.get(position));
         return view;

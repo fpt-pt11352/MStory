@@ -46,7 +46,7 @@ public class ComicListCustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup parent) {
-        view = (LayoutInflater.from(mContext)).inflate(R.layout.custom_gridview, null, false);
+        view = (LayoutInflater.from(mContext)).inflate(R.layout.view_comics_list, null, false);
         TextView textViewAndroid = (TextView) view.findViewById(R.id.android_gridview_text);
         ImageView imageViewAndroid = (ImageView) view.findViewById(R.id.android_gridview_image);
         textViewAndroid.setText(arrComic.get(i).getComicsName());

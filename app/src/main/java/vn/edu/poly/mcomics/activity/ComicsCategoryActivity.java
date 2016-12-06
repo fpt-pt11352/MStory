@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -32,7 +31,7 @@ public class ComicsCategoryActivity extends AppCompatActivity implements Downloa
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        setContentView(R.layout.navigation_view);
+        setContentView(R.layout.view_navigation);
         new NavigationDrawer(this, R.layout.activity_comics_category, (ViewGroup) (findViewById(R.id.root)).getParent());
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);

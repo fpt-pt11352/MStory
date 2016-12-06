@@ -1,26 +1,19 @@
 package vn.edu.poly.mcomics.activity;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.facebook.FacebookSdk;
 
 import org.json.JSONException;
 
@@ -28,11 +21,12 @@ import java.util.ArrayList;
 
 import vn.edu.poly.mcomics.R;
 import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
-import vn.edu.poly.mcomics.object.handle.custom.adapter.RecyclerviewCustomAdapter;
+import vn.edu.poly.mcomics.object.handle.custom.adapter.RecycleViewCustomAdapter;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.eventlistener.OnViewCreateCallback;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
+import vn.edu.poly.mcomics.object.handle.other.Show;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Comics;
 import vn.edu.poly.mcomics.object.variable.ComicsKind;
@@ -70,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
 
     @Override
     public void onLoadFinish(final String string) {
-        FragmentCreator fragment = FragmentCreator.getFragment(R.layout.navigation_view, "main");
+        FragmentCreator fragment = FragmentCreator.getFragment(R.layout.view_navigation, "main");
         fragment.setOnViewCreateCallback(new OnViewCreateCallback() {
             @Override
             public void OnViewCreate(View view, String tag) {
@@ -85,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     }
 
     public void createLoadingFragment() {
-        FragmentCreator fragment = FragmentCreator.getFragment(R.layout.loading_fragment, "loading");
+        FragmentCreator fragment = FragmentCreator.getFragment(R.layout.fragment_loading, "loading");
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
     }
@@ -93,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     public void createMainFragment(View view, String string) throws JSONException {
         getSupportActionBar().show();
 
-        new NavigationDrawer(this, R.layout.main_fragment, (ViewGroup) view);
+        new NavigationDrawer(this, R.layout.fragment_main, (ViewGroup) view);
 
         ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
         createRecyclerView(view, comicsArray);
@@ -116,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewList);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerviewCustomAdapter adapter = new RecyclerviewCustomAdapter(comicsArray);
+        RecycleViewCustomAdapter adapter = new RecycleViewCustomAdapter(comicsArray);
         recyclerView.setAdapter(adapter);
     }
 
@@ -124,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linear_kind);
         final ArrayList<ComicsKind> comicsKindArray = new ParserJSON().getComicKindArray(string);
         for (int x = 0; x < comicsKindArray.size(); x++) {
-            View view = (LayoutInflater.from(this)).inflate(R.layout.kind_list_item_view, null, false);
+            View view = (LayoutInflater.from(this)).inflate(R.layout.view_kind_list_item, null, false);
             ((TextView) view.findViewById(R.id.id)).setText(comicsKindArray.get(x).getId() + "");
             ((TextView) view.findViewById(R.id.text)).setText(comicsKindArray.get(x).getKind());
             final int finalX = x;
@@ -171,5 +165,11 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
         super.onActivityResult(requestCode, resultCode, data);
         facebookAPI.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Show.toastSHORT(this, "back");
+        super.onBackPressed();
     }
 }

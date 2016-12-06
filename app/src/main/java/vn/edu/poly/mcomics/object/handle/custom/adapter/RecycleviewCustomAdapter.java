@@ -22,39 +22,37 @@ import vn.edu.poly.mcomics.object.variable.Comics;
  * Created by lucius on 11/15/16.
  */
 
-public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<RecyclerviewCustomAdapter.RecyclerViewHolder> {
+public class RecycleViewCustomAdapter extends RecyclerView.Adapter<RecycleViewCustomAdapter.RecyclerViewHolder> {
 
-    private int[] arrImg;
-    private Context context;
-    ArrayList<Comics> arrComicses = new ArrayList<>();
+    private ArrayList<Comics> arrComics = new ArrayList<>();
 
-    public RecyclerviewCustomAdapter(ArrayList<Comics> arrComicses) {
-        this.arrComicses = arrComicses;
+    public RecycleViewCustomAdapter(ArrayList<Comics> arrComics) {
+        this.arrComics = arrComics;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemview = inflater.inflate(R.layout.recycleview, parent, false);
-        return new RecyclerViewHolder(itemview);
+        View view = inflater.inflate(R.layout.view_top_list, parent, false);
+        return new RecyclerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Context context = holder.comicImage.getContext();
-        holder.comicName.setText(arrComicses.get(position).comicsName);
-        holder.viewNumber.setText(arrComicses.get(position).getViews()+"");
-        holder.chapterNumber.setText(arrComicses.get(position).getEpisodes()+"");
-        Picasso.with(context).load(arrComicses.get(position).thumbnail).error(R.mipmap.bia).resize(300, 400).into(holder.comicImage);
+        holder.comicName.setText(arrComics.get(position).comicsName);
+        holder.viewNumber.setText(arrComics.get(position).getViews() + "");
+        holder.chapterNumber.setText(arrComics.get(position).getEpisodes() + "");
+        Picasso.with(context).load(arrComics.get(position).thumbnail).error(R.mipmap.bia).resize(300, 400).into(holder.comicImage);
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(v.getContext(), ComicDetailActivity.class);
-                intent.putExtra("id", arrComicses.get(position).getId()+"");
-                intent.putExtra("comicsName", arrComicses.get(position).getComicsName());
-                intent.putExtra("view",String.valueOf(arrComicses.get(position).getViews()));
-                intent.putExtra("content", arrComicses.get(position).getContent());
-                intent.putExtra("thumbnail", arrComicses.get(position).getThumbnail());
+                Intent intent = new Intent(v.getContext(), ComicDetailActivity.class);
+                intent.putExtra("id", arrComics.get(position).getId() + "");
+                intent.putExtra("comicsName", arrComics.get(position).getComicsName());
+                intent.putExtra("view", String.valueOf(arrComics.get(position).getViews()));
+                intent.putExtra("content", arrComics.get(position).getContent());
+                intent.putExtra("thumbnail", arrComics.get(position).getThumbnail());
                 v.getContext().startActivity(intent);
             }
         });
@@ -62,7 +60,7 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
 
     @Override
     public int getItemCount() {
-        return arrComicses.size();
+        return arrComics.size();
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -72,11 +70,11 @@ public class RecyclerviewCustomAdapter extends RecyclerView.Adapter<Recyclerview
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
-            linear= (LinearLayout) itemView.findViewById(R.id.linear);
+            linear = (LinearLayout) itemView.findViewById(R.id.linear);
             comicName = (TextView) itemView.findViewById(R.id.txtHeader);
             comicImage = (ImageView) itemView.findViewById(R.id.imgItem);
-            viewNumber = (TextView)itemView.findViewById(R.id.view_number);
-            chapterNumber = (TextView)itemView.findViewById(R.id.chapter_number);
+            viewNumber = (TextView) itemView.findViewById(R.id.view_number);
+            chapterNumber = (TextView) itemView.findViewById(R.id.chapter_number);
 
         }
 

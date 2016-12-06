@@ -29,7 +29,7 @@ public class CustomRecycleViewReader extends RecyclerView.Adapter<CustomRecycleV
     @Override
     public CustomRecycleViewReader.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemview = inflater.inflate(R.layout.recycleview_reader, parent, false);
+        View itemview = inflater.inflate(R.layout.view_recycle_reader, parent, false);
         return new CustomRecycleViewReader.RecyclerViewHolder(itemview);
     }
 

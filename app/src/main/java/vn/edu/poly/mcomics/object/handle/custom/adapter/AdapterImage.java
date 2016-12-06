@@ -48,11 +48,11 @@ public class AdapterImage extends RecyclerView.Adapter<AdapterImage.ViewHolder> 
                                          int viewType) {
         // create a new view
 //        View v = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.item_page, parent, false);
+//                .inflate(R.layout.view_item_page, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, null, true);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item_page, null, true);
         WindowManager windowManager = (WindowManager)parent.getContext().getSystemService(Context.WINDOW_SERVICE);
         int width = windowManager.getDefaultDisplay().getWidth();
         view.setLayoutParams(new RecyclerView.LayoutParams(width, RecyclerView.LayoutParams.MATCH_PARENT));

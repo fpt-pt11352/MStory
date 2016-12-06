@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 
 import org.json.JSONException;
 
@@ -40,15 +39,15 @@ public class ComicChaptersActivity extends AppCompatActivity implements Download
         super.onCreate(savedInstanceState);
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
-        setContentView(R.layout.navigation_view);
+        setContentView(R.layout.view_navigation);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comic_chapters, (ViewGroup) (findViewById(R.id.root).getParent()));
 //        view = (inflater.inflate(R.layout.activity_comic_chapters, parent, false));
-//        toolbar = (Toolbar) findViewById(R.id.toolBar);
-//        toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
+//        view_toolbar = (Toolbar) findViewById(R.id.toolBar);
+//        view_toolbar = (Toolbar) inflater.inflate(R.layout.view_toolbar, ((ViewGroup) view), false)
 //                .findViewById(R.id.toolBar);
-//        ((LinearLayout) view).removeViewAt(toolbar);
+//        ((LinearLayout) view).removeViewAt(view_toolbar);
 //        LinearLayout layout = new LinearLayout(this);
-//        layout.removeViewAt(R.layout.toolbar);
+//        layout.removeViewAt(R.layout.view_toolbar);
 //        LinearLayout aCtionBar=new LinearLayout(activity);
 //
 //        ((LinearLayout) view).addView(aCtionBar, 0);

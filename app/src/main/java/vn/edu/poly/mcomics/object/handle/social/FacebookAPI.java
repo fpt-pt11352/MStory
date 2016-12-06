@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -157,7 +156,7 @@ public class FacebookAPI {
 
                             for (int x = 0; x < list.size(); x++) {
                                 FaceBookComment temp  = list.get(x);
-                                View cmt = ((LayoutInflater.from(activity)).inflate(R.layout.comment_view, parent, false));
+                                View cmt = ((LayoutInflater.from(activity)).inflate(R.layout.view_comment, parent, false));
                                 ((TextView)cmt.findViewById(R.id.name)).setText(temp.getUserName());
                                 ((TextView)cmt.findViewById(R.id.txv_comment)).setText(temp.getUserMessage());
                                 ((TextView)cmt.findViewById(R.id.txv_time)).setText(temp.getTime().substring(0,temp.getTime().indexOf("+")));
@@ -174,5 +173,7 @@ public class FacebookAPI {
     public boolean isLogined() {
         return AccessToken.getCurrentAccessToken() != null;
     }
+
+
 
 }

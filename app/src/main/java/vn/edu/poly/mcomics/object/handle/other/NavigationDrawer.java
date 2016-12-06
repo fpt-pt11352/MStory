@@ -29,6 +29,7 @@ import com.facebook.login.widget.LoginButton;
 
 import vn.edu.poly.mcomics.R;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
+import vn.edu.poly.mcomics.object.variable.Comics;
 
 /**
  * Created by lucius on 11/16/16.
@@ -44,6 +45,15 @@ public class NavigationDrawer {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private FacebookAPI facebookAPI;
+    private Boolean ishow;
+    //
+    private Button btn_openComics;
+    //    private FacebookAPI facebookAPI;
+    private boolean isShow;
+    private TextView txv_readMoreTop, txv_readMoreBottom, txv_review;
+    private NavigationDrawer navigationDrawer;
+    private String id;
+    private Comics comics;
 
 
     public NavigationDrawer(final Activity activity, int layout, ViewGroup viewGroup) {
@@ -52,14 +62,25 @@ public class NavigationDrawer {
         this.parent = viewGroup;
         facebookAPI = new FacebookAPI(activity);
         facebookAPI.init();
+        //
 
+        //
         view = (inflater.inflate(layout, parent, false));
 
         ((AppCompatActivity) activity).getSupportActionBar().hide();
-
         toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, ((ViewGroup) view), false)
                 .findViewById(R.id.toolBar);
+        ((LinearLayout) parent.findViewById(R.id.lyInformatipn_app)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialogAA = new Dialog(activity);
+                dialogAA.setTitle("Thông tin nhóm 1");
+                dialogAA.setContentView(R.layout.information_app);
+                dialogAA.getWindow().setLayout(1000,1200);
+                dialogAA.show();
 
+            }
+        });
         ((LinearLayout) view).addView(toolbar, 0);
         ((FrameLayout) parent.findViewById(R.id.root)).addView(view);
         drawerLayout = ((DrawerLayout) parent);
@@ -82,28 +103,46 @@ public class NavigationDrawer {
                 Toast.makeText(activity, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
             }
         });
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkShowHide();
+            }
+        });
         //
         //
         //
 
         TextView change = (TextView) parent.findViewById(R.id.change);
         clickBrightness();
+
         change.setText("Độ sáng :" + Settings.System.getInt(activity.getContentResolver(), Settings
                 .System.SCREEN_BRIGHTNESS, 0) * 100 / 255 + " %");
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.getWindow().setLayout(1000, 160);
-                dialog.show();
-            }
-        });
-        ((EditText) toolbar.findViewById(R.id.ed_search)).setVisibility(View.INVISIBLE);
-        beforeIconSearchClick();
-        createNavifationButton();
-        clickSearch();
+        change.setOnClickListener(new View.OnClickListener()
+
+                                  {
+                                      @Override
+                                      public void onClick(View v) {
+                                          dialog.setTitle("Độ sáng");
+                                          dialog.getWindow().setLayout(1000, 230);
+                                          dialog.show();
+                                      }
+                                  }
+
+        );
+        ((EditText) toolbar.findViewById(R.id.ed_search)).
+
+                setVisibility(View.INVISIBLE);
+
         beforeIconSearchClick();
 
+        createNavifationButton();
+
+        clickSearch();
+
+        beforeIconSearchClick();
     }
+
 
     public void createNavifationButton() {
         ((ImageView) toolbar.findViewById(R.id.navigation_button)).setOnClickListener(new View.OnClickListener() {
@@ -112,6 +151,32 @@ public class NavigationDrawer {
                 showHideNavigation();
             }
         });
+    }
+
+    public void checkShowHide() {
+        if (!facebookAPI.isLogined()) {
+            sShow();
+            ;
+        } else {
+            hHide();
+        }
+    }
+
+    public void sShow() {
+        ((LinearLayout) parent.findViewById(R.id.lyLike))
+                .setVisibility(View
+                        .VISIBLE);
+        ((LinearLayout) parent.findViewById(R.id.lyComment)).setVisibility(View.VISIBLE);
+        ((LinearLayout) parent.findViewById(R.id.lyShare)).setVisibility(View.VISIBLE);
+    }
+
+    public void hHide() {
+
+        ((LinearLayout) parent.findViewById(R.id.lyLike))
+                .setVisibility(View
+                        .GONE);
+        ((LinearLayout) parent.findViewById(R.id.lyComment)).setVisibility(View.GONE);
+        ((LinearLayout) parent.findViewById(R.id.lyShare)).setVisibility(View.GONE);
     }
 
     public void showHideNavigation() {
@@ -144,6 +209,15 @@ public class NavigationDrawer {
         });
     }
 
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+
     public void beforeIconSearchClick() {
         ((ImageView) toolbar.findViewById(R.id.img_v_search)).setVisibility(View.VISIBLE);
         ((ImageView) toolbar.findViewById(R.id.img_v_searched)).setVisibility(View.INVISIBLE);
@@ -166,6 +240,7 @@ public class NavigationDrawer {
         keyBoard.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
         //Code thuc hien tim kiem truyen o duoi day
     }
+
     public void clickBrightness() {
         dialog = new Dialog(activity);
         dialog.setTitle("Thay đổi độ sáng");
@@ -177,7 +252,6 @@ public class NavigationDrawer {
                 Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, progress);
                 TextView change = (TextView) parent.findViewById(R.id.change);
                 change.setText("Độ sáng :" + progress * 100 / 255 + " %");
-
             }
 
             @Override

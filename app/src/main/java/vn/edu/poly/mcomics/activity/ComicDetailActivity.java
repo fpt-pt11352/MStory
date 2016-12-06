@@ -76,8 +76,8 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         if (!facebookAPI.isLogined()) {
             return;
         }
-        LoadJsonInBackground loadJson = new LoadJsonInBackground();
-        loadJson.setOnFinishEvent(new DownloadEvent() {
+            LoadJsonInBackground loadJson = new LoadJsonInBackground();
+            loadJson.setOnFinishEvent(new DownloadEvent() {
             @Override
             public void onLoadFinish(String string) {
                 Show.log("createSocial.onLoadFinish", string);
@@ -96,7 +96,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                     return;
                 }
                 final Animation myAnimation = AnimationUtils.loadAnimation(getBaseContext(), R.anim
-                        .fade_in);
+                        .scale);
 
                 TextView like = (TextView) findViewById(R.id.like);
                 TextView comment = (TextView) findViewById(R.id.comment);

@@ -18,6 +18,7 @@ import vn.edu.poly.mcomics.object.handle.custom.adapter.AdapterImage;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
+import vn.edu.poly.mcomics.object.handle.other.SettingHandle;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Content;
 
@@ -47,7 +48,7 @@ public class ComicsReadingActivity extends AppCompatActivity {
         chapter = intent.getIntExtra("chapter", 0) + "";
         recyclerView = (RecyclerView) findViewById(R.id.cardView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplication());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(new SettingHandle(this).getOrientation());
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.setHasFixedSize(true);
         LoadJsonInBackground loadJsonInBackground = new LoadJsonInBackground();

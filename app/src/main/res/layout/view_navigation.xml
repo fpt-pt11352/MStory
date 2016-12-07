@@ -75,7 +75,7 @@
 
                 <ImageView
                     style="@style/icon_row"
-                    android:src="@drawable/horizontalswipe" />
+                    android:src="@drawable/horizontal_swipe" />
 
                 <TextView
                     style="@style/text_row"

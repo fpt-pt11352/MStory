@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
@@ -12,12 +13,12 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,12 +46,14 @@ public class NavigationDrawer implements View.OnClickListener {
     private ViewGroup parent;
     private View mainView;
     private Activity activity;
-    private Dialog dialog;
+    private Dialog brightnessDialog, viewModeDialog;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private FacebookAPI facebookAPI;
     private LoginButton loginButton;
     private TextView txv_log;
+    private LinearLayout btn_vertical, btn_horizontal;
+    private SettingHandle settingHandle;
     protected SeekBar seekBar;
 
     private final int REQUEST_CODE = 200;
@@ -69,6 +72,7 @@ public class NavigationDrawer implements View.OnClickListener {
         createFbLoginButton();
         setButtonOnClick();
         createBrightnessDialog();
+        createViewModeDialog();
 
         new AccessTokenTracker() {
             @Override
@@ -93,6 +97,7 @@ public class NavigationDrawer implements View.OnClickListener {
         btn_brightness = (TableRow) parent.findViewById(R.id.btn_brightness);
         btn_viewMode = (TableRow) parent.findViewById(R.id.btn_viewMode);
         txv_log = (TextView) parent.findViewById(R.id.txv_log);
+        settingHandle = new SettingHandle(activity);
     }
 
     public void setButtonOnClick() {
@@ -103,7 +108,7 @@ public class NavigationDrawer implements View.OnClickListener {
         btn_viewMode.setOnClickListener(this);
     }
 
-    public void createBrightnessDialog() {
+    public void getPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (activity.checkSelfPermission(Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
                 if (Settings.System.canWrite(activity)) {
@@ -116,19 +121,41 @@ public class NavigationDrawer implements View.OnClickListener {
                 }
             }
         }
+    }
 
-        dialog = new Dialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.view_brightness);
+    public int getScreenWidth() {
+        Point point = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(point);
+        return point.x;
+    }
 
-        ((LinearLayout) dialog.findViewById(R.id.dialog_brightness)).getLayoutParams().width = (int) (getScreenWidth() * 0.90);
+    public void checkLogin() {
+        if (facebookAPI.isLogged()) {
+            btn_likes.setAlpha(1);
+            btn_shares.setAlpha(1);
+            txv_log.setText("Đăng xuất");
+        } else {
+            btn_likes.setAlpha(0.7f);
+            btn_shares.setAlpha(0.7f);
+            txv_log.setText("Đăng Nhập");
+        }
+    }
 
-        seekBar = (SeekBar) dialog.findViewById(R.id.sbBrightness);
+    public void createBrightnessDialog() {
+        getPermission();
+
+        brightnessDialog = new Dialog(activity);
+        brightnessDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        brightnessDialog.setContentView(R.layout.view_dialog_brightness);
+
+        ((LinearLayout) brightnessDialog.findViewById(R.id.dialog_brightness)).getLayoutParams().width = (int) (getScreenWidth() * 0.90);
+
+        seekBar = (SeekBar) brightnessDialog.findViewById(R.id.sbBrightness);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, progress);
-                ((TextView) dialog.findViewById(R.id.txv_currentBrightness)).setText((int) (progress/ONE_PERCENT)+"");
+                ((TextView) brightnessDialog.findViewById(R.id.txv_currentBrightness)).setText((int) (progress / ONE_PERCENT) + "");
             }
 
             @Override
@@ -144,12 +171,49 @@ public class NavigationDrawer implements View.OnClickListener {
 
     }
 
-    public int getScreenWidth() {
-        Point point = new Point();
-        activity.getWindowManager().getDefaultDisplay().getSize(point);
-        return point.x;
+    public void createViewModeDialog() {
+        viewModeDialog = new Dialog(activity);
+        viewModeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        viewModeDialog.setContentView(R.layout.view_dialog_swipe_mode);
+        ((LinearLayout) viewModeDialog.findViewById(R.id.dialog_viewMode)).getLayoutParams().width = (int) (getScreenWidth() * 0.90);
+
+        btn_vertical = (LinearLayout) viewModeDialog.findViewById(R.id.ll_btn_Vertical);
+        btn_horizontal = (LinearLayout) viewModeDialog.findViewById(R.id.ll_btn_Horizontal);
+        refreshViewMode();
+
+        btn_vertical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Show.log("btn_vertical", LinearLayoutManager.VERTICAL + "");
+                settingHandle.setOrientation(LinearLayoutManager.VERTICAL);
+                refreshViewMode();
+            }
+        });
+
+        btn_horizontal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Show.log("btn_horizontal", LinearLayoutManager.HORIZONTAL + "");
+                settingHandle.setOrientation(LinearLayoutManager.HORIZONTAL);
+                refreshViewMode();
+            }
+        });
     }
 
+    public void refreshViewMode() {
+        clearBorderViewMode();
+        if (settingHandle.getOrientation() == LinearLayoutManager.VERTICAL) {
+            btn_vertical.setBackgroundColor(Color.parseColor("#000000"));
+        } else {
+            btn_horizontal.setBackgroundColor(Color.parseColor("#000000"));
+        }
+        Show.log("orientation", settingHandle.getOrientation() + "");
+    }
+
+    public void clearBorderViewMode() {
+        btn_vertical.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        btn_horizontal.setBackgroundColor(Color.parseColor("#FFFFFF"));
+    }
 
     public void createFbLoginButton() {
         facebookAPI.createLoginButton(loginButton,
@@ -171,19 +235,6 @@ public class NavigationDrawer implements View.OnClickListener {
                 });
         checkLogin();
     }
-
-    public void checkLogin() {
-        if (facebookAPI.isLogged()) {
-            btn_likes.setAlpha(1);
-            btn_shares.setAlpha(1);
-            txv_log.setText("Đăng xuất");
-        } else {
-            btn_likes.setAlpha(0.7f);
-            btn_shares.setAlpha(0.7f);
-            txv_log.setText("Đăng Nhập");
-        }
-    }
-
 
     public void createNavigationButton() {
         ((ImageView) toolbar.findViewById(R.id.navigation_button)).setOnClickListener(new View.OnClickListener() {
@@ -222,16 +273,16 @@ public class NavigationDrawer implements View.OnClickListener {
     }
 
     public void sharesClicked() {
-
+        facebookAPI.like("252252888524492");
     }
 
     public void brightnessClicked() {
         int currentBrightness = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, -1);
         seekBar.setProgress(currentBrightness);
-        dialog.show();
+        brightnessDialog.show();
     }
 
     public void viewModeClicked() {
-
+        viewModeDialog.show();
     }
 }

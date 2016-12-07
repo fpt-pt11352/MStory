@@ -12,6 +12,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.backgroundtask.CheckInternet;
 import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.custom.adapter.AdapterImage;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
@@ -32,6 +33,10 @@ public class ComicsReadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!CheckInternet.check(this)){
+            setContentView(R.layout.view_connect_fail);
+            return;
+        }
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
         setContentView(R.layout.view_navigation);

@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 
 import vn.edu.poly.mcomics.R;
+import vn.edu.poly.mcomics.object.handle.backgroundtask.CheckInternet;
 import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
@@ -40,6 +41,10 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!CheckInternet.check(this)){
+            setContentView(R.layout.view_connect_fail);
+            return;
+        }
         facebookAPI = new FacebookAPI(this);
         facebookAPI.init();
         setContentView(R.layout.view_navigation);

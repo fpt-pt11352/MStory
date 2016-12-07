@@ -129,6 +129,12 @@ public class NavigationDrawer implements View.OnClickListener {
         return point.x;
     }
 
+    public int getScreenHeight() {
+        Point point = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(point);
+        return point.y;
+    }
+
     public void checkLogin() {
         if (facebookAPI.isLogged()) {
             btn_likes.setAlpha(1);
@@ -284,5 +290,9 @@ public class NavigationDrawer implements View.OnClickListener {
 
     public void viewModeClicked() {
         viewModeDialog.show();
+    }
+
+    public void hideActionbar(){
+        toolbar.setVisibility(View.GONE);
     }
 }

@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface OnViewCreateCallback  {
-    public void OnViewCreate(View view, String tag);
+    void OnViewCreate(View view, String tag);
 }

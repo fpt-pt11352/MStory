@@ -10,14 +10,14 @@ import android.widget.Toast;
 
 public final class Show {
     public static void toastSHORT(Activity activity, String text){
-        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, text+"", Toast.LENGTH_SHORT).show();
     }
     public static void toastLONG(Activity activity, String text){
-        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, text+"", Toast.LENGTH_LONG).show();
     }
 
     public static void log(String tag, String content){
-        Log.e(tag, content);
+        Log.e(tag, content+"");
 }
 
 }

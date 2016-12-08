@@ -16,25 +16,29 @@ import vn.edu.poly.mcomics.object.handle.backgroundtask.CheckInternet;
 import vn.edu.poly.mcomics.object.handle.backgroundtask.LoadJsonInBackground;
 import vn.edu.poly.mcomics.object.handle.custom.adapter.AdapterImage;
 import vn.edu.poly.mcomics.object.handle.eventlistener.DownloadEvent;
+import vn.edu.poly.mcomics.object.handle.eventlistener.OrientationChangeListener;
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
 import vn.edu.poly.mcomics.object.handle.other.SettingHandle;
+import vn.edu.poly.mcomics.object.handle.other.Show;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Content;
 
 
-public class ComicsReadingActivity extends AppCompatActivity {
+public class ComicsReadingActivity extends AppCompatActivity implements OrientationChangeListener{
     private ArrayList<Content> urlList;
     private RecyclerView recyclerView;
     private String id;
     private String chapter;
     private FacebookAPI facebookAPI;
     private NavigationDrawer navigationDrawer;
+    private SettingHandle settingHandle;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!CheckInternet.check(this)){
+        if (!CheckInternet.check(this)) {
             setContentView(R.layout.view_connect_fail);
             return;
         }
@@ -42,15 +46,19 @@ public class ComicsReadingActivity extends AppCompatActivity {
         facebookAPI.init();
         setContentView(R.layout.view_navigation);
         navigationDrawer = new NavigationDrawer(this, R.layout.activity_comics_reading, (ViewGroup) (findViewById(R.id.root).getParent()));
+        navigationDrawer.hideActionbar();
+
+        settingHandle = navigationDrawer.getSettingHandle();
+        settingHandle.setOrientationListener(this);
+
+        recyclerView = (RecyclerView) findViewById(R.id.cardView);
+        layoutManager = new LinearLayoutManager(getApplication());
+        layoutManager.setOrientation(settingHandle.getOrientation());
+        recyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         chapter = intent.getIntExtra("chapter", 0) + "";
-        recyclerView = (RecyclerView) findViewById(R.id.cardView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplication());
-        layoutManager.setOrientation(new SettingHandle(this).getOrientation());
-        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
         LoadJsonInBackground loadJsonInBackground = new LoadJsonInBackground();
         loadJsonInBackground.setOnFinishEvent(new DownloadEvent() {
             @Override
@@ -68,7 +76,7 @@ public class ComicsReadingActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        AdapterImage adapter = new AdapterImage(urlList);
+        AdapterImage adapter = new AdapterImage(this, urlList);
         recyclerView.setAdapter(adapter);
     }
 
@@ -76,5 +84,13 @@ public class ComicsReadingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         facebookAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onChanged(int orientation) {
+        layoutManager.setOrientation(settingHandle.getOrientation());
+        AdapterImage adapter = new AdapterImage(this, urlList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }

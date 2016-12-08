@@ -5,5 +5,5 @@ package vn.edu.poly.mcomics.object.handle.eventlistener;
  */
 
 public interface OrientationChangeListener {
-        public void onChanged(int orientation);
+    void onChanged(int orientation);
 }

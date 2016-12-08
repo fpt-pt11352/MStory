@@ -295,4 +295,8 @@ public class NavigationDrawer implements View.OnClickListener {
     public void hideActionbar(){
         toolbar.setVisibility(View.GONE);
     }
+
+    public SettingHandle getSettingHandle(){
+        return settingHandle;
+    }
 }

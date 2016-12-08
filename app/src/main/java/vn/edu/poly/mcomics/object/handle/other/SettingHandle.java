@@ -18,10 +18,13 @@ import vn.edu.poly.mcomics.object.handle.eventlistener.OrientationChangeListener
 
 public final class SettingHandle {
     private SQLiteDatabase db;
-    public final int VERTICAL = LinearLayoutManager.VERTICAL;
-    public final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
+    private Activity activity;
+    public static final int VERTICAL = LinearLayoutManager.VERTICAL;
+    public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
     private OrientationChangeListener orientationListener;
+
     public SettingHandle(Activity activity) {
+        this.activity = activity;
         db = activity.openOrCreateDatabase(activity.getResources().getString(R.string.mcomics_database), Context.MODE_PRIVATE, null);
         createTable();
     }
@@ -38,18 +41,13 @@ public final class SettingHandle {
         Cursor cursor = db.rawQuery("SELECT * FROM setting WHERE setting_name = 'orientation'", null);
         if (cursor.getCount() <= 0) {
             db.execSQL("INSERT INTO setting VALUES ( 'orientation', " + VERTICAL + ")");
-            Show.log("setDefault", "set");
         }
     }
 
     public int getOrientation() {
         Cursor cursor = db.rawQuery("SELECT * FROM setting WHERE setting_name = 'orientation'", null);
         if (cursor.getCount() == 1) {
-            cursor.moveToNext();
-            Show.log("get", cursor.getInt(1)+"");
-            if (cursor.getInt(1) == LinearLayoutManager.VERTICAL) {
-                return LinearLayoutManager.VERTICAL;
-            } else {
+            if (cursor.moveToNext() && cursor.getInt(1) == LinearLayoutManager.HORIZONTAL) {
                 return LinearLayoutManager.HORIZONTAL;
             }
         }
@@ -57,14 +55,13 @@ public final class SettingHandle {
     }
 
     public void setOrientation(int orientation) {
-        Show.log("setOrientation", orientation + "");
         db.execSQL("UPDATE setting SET value= " + orientation + " WHERE setting_name == 'orientation'");
-        if(orientationListener!= null){
-            orientationListener.onChanged(orientation);
+        if (this.orientationListener != null) {
+            this.orientationListener.onChanged(orientation);
         }
     }
 
-    public void setOrientationListener(OrientationChangeListener orientationListener){
+    public void setOrientationListener(OrientationChangeListener orientationListener) {
         this.orientationListener = orientationListener;
     }
 }

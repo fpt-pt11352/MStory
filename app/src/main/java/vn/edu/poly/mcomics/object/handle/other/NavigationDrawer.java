@@ -73,6 +73,7 @@ public class NavigationDrawer implements View.OnClickListener {
         setButtonOnClick();
         createBrightnessDialog();
         createViewModeDialog();
+        OnDoubleClickExitButton();
 
         new AccessTokenTracker() {
             @Override
@@ -98,6 +99,31 @@ public class NavigationDrawer implements View.OnClickListener {
         btn_viewMode = (TableRow) parent.findViewById(R.id.btn_viewMode);
         txv_log = (TextView) parent.findViewById(R.id.txv_log);
         settingHandle = new SettingHandle(activity);
+    }
+     public void OnDoubleClickExitButton() {
+        ImageView btn_Exit = (ImageView) parent.findViewById(R.id.btn_exit);
+        btn_Exit.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (firstClick != 0 && System.currentTimeMillis() - firstClick > 5000) {
+                            count = 0;
+                        }
+                        count++;
+                        if (count == 1) {
+                            firstClick = System.currentTimeMillis();
+                        } else if (count == 2) {
+                            secondClick = System.currentTimeMillis();
+                            if (secondClick - firstClick < 1500) {
+                                System.exit(0);
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     public void setButtonOnClick() {

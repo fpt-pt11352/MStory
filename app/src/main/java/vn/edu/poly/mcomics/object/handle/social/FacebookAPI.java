@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -98,8 +99,9 @@ public class FacebookAPI {
             public void onCompleted(GraphResponse response) {
                 Show.log("share.response", response.toString());
                 if (response.getError() == null) {
-                    Show.toastSHORT(activity, "Chia sẻ thành công");
-                }
+                    Show.toastSHORT(activity, "Chia sẻ thành công!");
+                } else Toast.makeText(activity, "Chia sẻ không thành công!", Toast.LENGTH_SHORT)
+                        .show();
             }
         });
         Bundle parameters = new Bundle();
@@ -136,11 +138,11 @@ public class FacebookAPI {
                             ViewGroup parent = (ViewGroup) activity.findViewById(view);
 
                             for (int x = 0; x < list.size(); x++) {
-                                FaceBookComment temp  = list.get(x);
+                                FaceBookComment temp = list.get(x);
                                 View cmt = ((LayoutInflater.from(activity)).inflate(R.layout.view_comment, parent, false));
-                                ((TextView)cmt.findViewById(R.id.name)).setText(temp.getUserName());
-                                ((TextView)cmt.findViewById(R.id.txv_comment)).setText(temp.getUserMessage());
-                                ((TextView)cmt.findViewById(R.id.txv_time)).setText(temp.getTime().substring(0,temp.getTime().indexOf("+")));
+                                ((TextView) cmt.findViewById(R.id.name)).setText(temp.getUserName());
+                                ((TextView) cmt.findViewById(R.id.txv_comment)).setText(temp.getUserMessage());
+                                ((TextView) cmt.findViewById(R.id.txv_time)).setText(temp.getTime().substring(0, temp.getTime().indexOf("+")));
                                 parent.addView(cmt, x);
                             }
                         } catch (Exception e) {

@@ -2,15 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="#ffffff"
               android:orientation="vertical"
               android:padding="20dp">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Thông tin ứng dụng"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,6 +38,11 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,60 +51,93 @@
         android:textSize="15dp"
         android:textStyle="bold"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#bdfff1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="Phần mềm đọc truyện online miễn phí của chúng tôi, giúp bạn thoả sức đọc truyện online thật dễ dàng, với kho truyện lớn nhất hiện nay cực phong phú và hấp dẫn đươc cập nhật liên tục hằng ngày.
+Những tính năng nổi bật của phần mềm: \nCác truyện online trong phần mềm được cập nhật liên tục và nhanh nhất bởi độ ngũ dịch truyên hùng hậu với chuyên môn cao!\nTìm kiếm truyện, sắp xếp truyện theo: lượt xem, thể loại.\nRất mong nhận được sự ủng hộ và đóng góp ý kiến của bạn đọc để phần mềm ngày càng hoàn thiện hơn."
+        android:textSize="15dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="*Người thực hiện*"
         android:textAlignment="center"
-        android:textSize="22dp"
+        android:textSize="18dp"
         android:textStyle="bold"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Trần Phú Hoàng"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nguyễn Văn Khang"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Phan Văn Vương"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nguyễn Quang Hưng"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Triệu Văn Tú"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FPT Polytechnic K11.3"
-        android:textAlignment="center"
-        android:textSize="22dp"
-        android:textStyle="bold"/>
+        android:layout_height="1dp"
+        android:background="#ffbdbd"/>
 </LinearLayout>

@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -110,7 +111,10 @@ public class NavigationDrawer implements View.OnClickListener {
         thongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 dialog.setContentView(layout);
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT);
                 dialog.show();
             }
         });
@@ -145,7 +149,7 @@ public class NavigationDrawer implements View.OnClickListener {
 
     public void setButtonOnClick() {
         btn_likes.setOnClickListener(this);
-        btn_likes.setOnClickListener(this);
+        btn_shares.setOnClickListener(this);
         btn_log.setOnClickListener(this);
         btn_brightness.setOnClickListener(this);
         btn_viewMode.setOnClickListener(this);
@@ -317,11 +321,11 @@ public class NavigationDrawer implements View.OnClickListener {
         }
     }
 
-    public void likesClicked() {
-
+    public void sharesClicked() {
+        facebookAPI.share("252252888524492", "Share on your timline");
     }
 
-    public void sharesClicked() {
+    public void likesClicked() {
         facebookAPI.like("252252888524492");
     }
 

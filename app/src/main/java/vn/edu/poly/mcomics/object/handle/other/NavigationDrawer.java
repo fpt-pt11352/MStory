@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -55,9 +56,12 @@ public class NavigationDrawer implements View.OnClickListener {
     private LinearLayout btn_vertical, btn_horizontal;
     private SettingHandle settingHandle;
     protected SeekBar seekBar;
+    private long firstClick, secondClick;
+    private int count;
+    private Dialog dialog;
 
     private final int REQUEST_CODE = 200;
-    private TableRow btn_likes, btn_shares, btn_log, btn_brightness, btn_viewMode;
+    private TableRow btn_likes, btn_shares, btn_log, btn_brightness, btn_viewMode, btn_exit;
     private final float ONE_PERCENT = 255f / 100f;
 
     public NavigationDrawer(final Activity activity, int layout, ViewGroup viewGroup) {
@@ -68,13 +72,13 @@ public class NavigationDrawer implements View.OnClickListener {
 
         ((LinearLayout) mainView).addView(toolbar, 0);
         ((FrameLayout) parent.findViewById(R.id.root)).addView(mainView);
-
+        dialog = new Dialog(activity);
+        showDialog(R.id.btn_info, R.layout.view_information_app);
         createFbLoginButton();
         setButtonOnClick();
         createBrightnessDialog();
         createViewModeDialog();
         OnDoubleClickExitButton();
-
         new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
@@ -100,14 +104,27 @@ public class NavigationDrawer implements View.OnClickListener {
         txv_log = (TextView) parent.findViewById(R.id.txv_log);
         settingHandle = new SettingHandle(activity);
     }
-     public void OnDoubleClickExitButton() {
+
+    public void showDialog(int id, final int layout) {
+        ImageView thongTin = (ImageView) parent.findViewById(id);
+        thongTin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.setContentView(layout);
+                dialog.show();
+            }
+        });
+
+    }
+
+    public void OnDoubleClickExitButton() {
         ImageView btn_Exit = (ImageView) parent.findViewById(R.id.btn_exit);
         btn_Exit.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (firstClick != 0 && System.currentTimeMillis() - firstClick > 5000) {
+                        if (firstClick != 0 && System.currentTimeMillis() - firstClick > 2000) {
                             count = 0;
                         }
                         count++;
@@ -318,11 +335,11 @@ public class NavigationDrawer implements View.OnClickListener {
         viewModeDialog.show();
     }
 
-    public void hideActionbar(){
+    public void hideActionbar() {
         toolbar.setVisibility(View.GONE);
     }
 
-    public SettingHandle getSettingHandle(){
+    public SettingHandle getSettingHandle() {
         return settingHandle;
     }
 }

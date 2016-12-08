@@ -1,13 +1,10 @@
 package vn.edu.poly.mcomics.object.handle.other;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 
 import vn.edu.poly.mcomics.R;
 import vn.edu.poly.mcomics.object.handle.eventlistener.OrientationChangeListener;
@@ -18,13 +15,11 @@ import vn.edu.poly.mcomics.object.handle.eventlistener.OrientationChangeListener
 
 public final class SettingHandle {
     private SQLiteDatabase db;
-    private Activity activity;
     public static final int VERTICAL = LinearLayoutManager.VERTICAL;
     public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
     private OrientationChangeListener orientationListener;
 
     public SettingHandle(Activity activity) {
-        this.activity = activity;
         db = activity.openOrCreateDatabase(activity.getResources().getString(R.string.mcomics_database), Context.MODE_PRIVATE, null);
         createTable();
     }

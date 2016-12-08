@@ -41,7 +41,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!CheckInternet.check(this)){
+        if (!CheckInternet.check(this)) {
             setContentView(R.layout.view_connect_fail);
             return;
         }
@@ -76,6 +76,12 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         createSocial();
     }
 
+    public void setButtonClickable(TextView like, TextView share, TextView comment, boolean value) {
+        like.setClickable(value);
+        comment.setClickable(value);
+        share.setClickable(value);
+    }
+
     public void createSocial() {
         if (!facebookAPI.isLogged()) {
             return;
@@ -99,14 +105,10 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                     ll_login.setVisibility(View.GONE);
                     fbInfo = parserJSON.getFacebookContentInfo(string);
                     ll_social.setAlpha(1);
-                    like.setClickable(true);
-                    comment.setClickable(true);
-                    share.setClickable(true);
+                    setButtonClickable(like, share, comment, true);
                 } catch (Exception e) {
                     ll_social.setAlpha(0.7f);
-                    like.setClickable(false);
-                    comment.setClickable(false);
-                    share.setClickable(false);
+                    setButtonClickable(like, share, comment, false);
                     e.printStackTrace();
                     return;
                 }
@@ -128,8 +130,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
                     @Override
                     public void onClick(View v) {
                         v.startAnimation(myAnimation);
-
-                        // facebookAPI.comment(fbShortId, comics.getComicsName()+" - MComics app");
                         LinearLayout ll_comment = ((LinearLayout) findViewById(R.id.ll_comment));
                         LinearLayout ll_review = ((LinearLayout) findViewById(R.id.ll_review));
                         EditText editText = (EditText) findViewById(R.id.edtx_input);

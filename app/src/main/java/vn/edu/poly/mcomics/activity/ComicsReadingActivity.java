@@ -20,7 +20,6 @@ import vn.edu.poly.mcomics.object.handle.eventlistener.OrientationChangeListener
 import vn.edu.poly.mcomics.object.handle.json.ParserJSON;
 import vn.edu.poly.mcomics.object.handle.other.NavigationDrawer;
 import vn.edu.poly.mcomics.object.handle.other.SettingHandle;
-import vn.edu.poly.mcomics.object.handle.other.Show;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
 import vn.edu.poly.mcomics.object.variable.Content;
 
@@ -53,8 +52,6 @@ public class ComicsReadingActivity extends AppCompatActivity implements Orientat
 
         recyclerView = (RecyclerView) findViewById(R.id.cardView);
         layoutManager = new LinearLayoutManager(getApplication());
-        layoutManager.setOrientation(settingHandle.getOrientation());
-        recyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -76,8 +73,7 @@ public class ComicsReadingActivity extends AppCompatActivity implements Orientat
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        AdapterImage adapter = new AdapterImage(this, urlList);
-        recyclerView.setAdapter(adapter);
+        showView();
     }
 
     @Override
@@ -88,9 +84,13 @@ public class ComicsReadingActivity extends AppCompatActivity implements Orientat
 
     @Override
     public void onChanged(int orientation) {
+        showView();
+    }
+
+    public void showView(){
         layoutManager.setOrientation(settingHandle.getOrientation());
-        AdapterImage adapter = new AdapterImage(this, urlList);
         recyclerView.setLayoutManager(layoutManager);
+        AdapterImage adapter = new AdapterImage(this, urlList);
         recyclerView.setAdapter(adapter);
     }
 }

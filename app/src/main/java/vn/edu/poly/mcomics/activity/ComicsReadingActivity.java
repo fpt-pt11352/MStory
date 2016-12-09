@@ -52,6 +52,8 @@ public class ComicsReadingActivity extends AppCompatActivity implements Orientat
 
         recyclerView = (RecyclerView) findViewById(R.id.cardView);
         layoutManager = new LinearLayoutManager(getApplication());
+        layoutManager.setOrientation(settingHandle.getOrientation());
+        recyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");

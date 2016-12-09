@@ -72,10 +72,10 @@ public class ComicsReadingActivity extends AppCompatActivity implements Orientat
         ParserJSON parserJSON = new ParserJSON();
         try {
             urlList = parserJSON.getPage(s);
+            showView();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        showView();
     }
 
     @Override

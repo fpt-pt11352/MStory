@@ -3,16 +3,21 @@ package vn.edu.poly.mcomics.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -37,6 +42,8 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     private NavigationDrawer navigationDrawer;
     private String id;
     private Comics comics;
+    private LinearLayout ll_social, ll_login;
+    private TextView like, share, comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,98 +83,133 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         createSocial();
     }
 
+    public void setLoginButton() {
+        facebookAPI.createLoginButton(
+                ((LoginButton) findViewById(R.id.loginButton)),
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Show.toastSHORT(getBaseContext(), "Đăng nhập thành công");
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Show.toastSHORT(getBaseContext(), "Đăng nhập thất bại. Hãy thử lại sau.");
+                    }
+                }
+        );
+    }
+
     public void setButtonClickable(TextView like, TextView share, TextView comment, boolean value) {
         like.setClickable(value);
         comment.setClickable(value);
         share.setClickable(value);
     }
 
+    public void mappingsSocial() {
+        ll_social = ((LinearLayout) findViewById(R.id.ll_social));
+        ll_login = ((LinearLayout) findViewById(R.id.ll_login));
+        like = (TextView) findViewById(R.id.like);
+        comment = (TextView) findViewById(R.id.comment);
+        share = (TextView) findViewById(R.id.share);
+    }
+
     public void createSocial() {
         if (!facebookAPI.isLogged()) {
+            setLoginButton();
             return;
+        } else {
+            mappingsSocial();
+            ll_social.setVisibility(View.VISIBLE);
+            ll_login.setVisibility(View.GONE);
         }
         LoadJsonInBackground loadJson = new LoadJsonInBackground();
         loadJson.setOnFinishEvent(new DownloadEvent() {
             @Override
             public void onLoadFinish(String string) {
-                Show.log("createSocial.onLoadFinish", string);
-                ParserJSON parserJSON = new ParserJSON();
-                final FacebookContent fbInfo;
-
-                LinearLayout ll_social = ((LinearLayout) findViewById(R.id.ll_social));
-                LinearLayout ll_login = ((LinearLayout) findViewById(R.id.ll_login));
-                TextView like = (TextView) findViewById(R.id.like);
-                TextView comment = (TextView) findViewById(R.id.comment);
-                TextView share = (TextView) findViewById(R.id.share);
-
                 try {
-                    ll_social.setVisibility(View.VISIBLE);
-                    ll_login.setVisibility(View.GONE);
-                    fbInfo = parserJSON.getFacebookContentInfo(string);
-                    ll_social.setAlpha(1);
-                    setButtonClickable(like, share, comment, true);
+                    enableSocial(new ParserJSON().getFacebookContentInfo(string));
                 } catch (Exception e) {
-                    ll_social.setAlpha(0.7f);
-                    setButtonClickable(like, share, comment, false);
-                    e.printStackTrace();
+                    disableSocial();
                     return;
                 }
-                final Animation myAnimation = AnimationUtils.loadAnimation(getBaseContext(), R.anim
-                        .scale);
-
-                final String fbShortId = fbInfo.getFbShortId();
-                facebookAPI.showCount(fbShortId, FacebookHandle.LIKES, like);
-                like.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        v.startAnimation(myAnimation);
-                        facebookAPI.like(fbInfo.getFbShortId());
-                    }
-                });
-
-                facebookAPI.showCount(fbShortId, FacebookHandle.COMMENTS, comment);
-                comment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        v.startAnimation(myAnimation);
-                        LinearLayout ll_comment = ((LinearLayout) findViewById(R.id.ll_comment));
-                        LinearLayout ll_review = ((LinearLayout) findViewById(R.id.ll_review));
-                        EditText editText = (EditText) findViewById(R.id.edtx_input);
-                        if (ll_review.getVisibility() == View.VISIBLE) {
-                            ll_review.setVisibility(View.GONE);
-                            ll_comment.setVisibility(View.VISIBLE);
-                            editText.setEnabled(true);
-                        } else {
-                            ll_comment.setVisibility(View.GONE);
-                            ll_review.setVisibility(View.VISIBLE);
-                            editText.setEnabled(false);
-                        }
-                    }
-                });
-
-                facebookAPI.showFbCommentList(fbInfo.getFbShortId(), R.id.ll_commentList);
-
-                final TextView btn_send = ((TextView) findViewById(R.id.txv_send));
-                final EditText input = ((EditText) findViewById(R.id.edtx_input));
-                btn_send.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        facebookAPI.comment(fbInfo.getFbShortId(), input.getText().toString());
-                        input.setText("");
-                    }
-                });
-
-                share.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        v.startAnimation(myAnimation);
-                        facebookAPI.share(fbShortId, comics.getComicsName() + " - MComics app. " + fbInfo.getFb_link());
-                    }
-                });
             }
         });
         loadJson.execute("http://grayguy.xyz/?kind=fb_content_info&id=" + id);
+    }
 
+    public void enableSocial(final FacebookContent fbInfo) {
+        ll_social.setAlpha(1);
+        setButtonClickable(like, share, comment, true);
+        setLikesButton(fbInfo);
+        setCommentButton(fbInfo);
+        setShareButton(fbInfo);
+        setSendComment(fbInfo);
+    }
+
+    public void disableSocial() {
+        ll_social.setAlpha(0.7f);
+        setButtonClickable(like, share, comment, false);
+    }
+
+    public void setLikesButton(final FacebookContent fbInfo) {
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.scale));
+                facebookAPI.showLikeDialog(fbInfo);
+            }
+        });
+    }
+
+    public void setCommentButton(FacebookContent fbInfo) {
+        facebookAPI.showCount(fbInfo.getFbLongId(), FacebookHandle.COMMENTS, comment);
+        comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.scale));
+                LinearLayout ll_comment = ((LinearLayout) findViewById(R.id.ll_comment));
+                LinearLayout ll_review = ((LinearLayout) findViewById(R.id.ll_review));
+                EditText editText = (EditText) findViewById(R.id.edtx_input);
+                if (ll_review.getVisibility() == View.VISIBLE) {
+                    ll_review.setVisibility(View.GONE);
+                    ll_comment.setVisibility(View.VISIBLE);
+                    editText.setEnabled(true);
+                } else {
+                    ll_comment.setVisibility(View.GONE);
+                    ll_review.setVisibility(View.VISIBLE);
+                    editText.setEnabled(false);
+                }
+            }
+        });
+    }
+
+    public void setSendComment(final FacebookContent fbInfo) {
+        facebookAPI.showFbCommentList(fbInfo.getFbLongId(), R.id.ll_commentList);
+        final TextView btn_send = ((TextView) findViewById(R.id.txv_send));
+        final EditText input = ((EditText) findViewById(R.id.edtx_input));
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                facebookAPI.comment(fbInfo, input.getText().toString(), comment);
+                input.setText("");
+            }
+        });
+    }
+
+    public void setShareButton(final FacebookContent fb) {
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.scale));
+                facebookAPI.showShareDialog(fb);
+            }
+        });
     }
 
     public void getView() {
@@ -199,6 +241,7 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         facebookAPI.onActivityResult(requestCode, resultCode, data);
+        navigationDrawer.onActivityResult(requestCode, resultCode, data);
         createSocial();
     }
 

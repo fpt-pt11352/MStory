@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -35,9 +35,11 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.widget.ShareDialog;
 
 import vn.edu.poly.mcomics.R;
 import vn.edu.poly.mcomics.object.handle.social.FacebookAPI;
+import vn.edu.poly.mcomics.object.variable.FacebookContent;
 
 /**
  * Created by lucius on 11/16/16.
@@ -57,8 +59,7 @@ public class NavigationDrawer implements View.OnClickListener {
     private LinearLayout btn_vertical, btn_horizontal;
     private SettingHandle settingHandle;
     protected SeekBar seekBar;
-    private long firstClick, secondClick;
-    private int count;
+    private long firstClickTime = -1, secondClickTime = -1;
     private Dialog dialog;
 
     private final int REQUEST_CODE = 200;
@@ -79,7 +80,7 @@ public class NavigationDrawer implements View.OnClickListener {
         setButtonOnClick();
         createBrightnessDialog();
         createViewModeDialog();
-        OnDoubleClickExitButton();
+        doubleClickExitButton();
         new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
@@ -121,28 +122,20 @@ public class NavigationDrawer implements View.OnClickListener {
 
     }
 
-    public void OnDoubleClickExitButton() {
+    public void doubleClickExitButton() {
         ImageView btn_Exit = (ImageView) parent.findViewById(R.id.btn_exit);
-        btn_Exit.setOnTouchListener(new View.OnTouchListener() {
+        btn_Exit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (firstClick != 0 && System.currentTimeMillis() - firstClick > 2000) {
-                            count = 0;
-                        }
-                        count++;
-                        if (count == 1) {
-                            firstClick = System.currentTimeMillis();
-                        } else if (count == 2) {
-                            secondClick = System.currentTimeMillis();
-                            if (secondClick - firstClick < 1500) {
-                                System.exit(0);
-                            }
-                        }
-                        break;
+            public void onClick(View v) {
+                if (firstClickTime == -1) {
+                    Show.toastSHORT(activity, "Nhấn 2 lần để thoát");
+                    firstClickTime = System.currentTimeMillis();
+                } else if ((firstClickTime != -1) && ((secondClickTime = System.currentTimeMillis()) - firstClickTime) <= 2000) {
+                    System.exit(0);
+                } else if ((firstClickTime != -1) && ((secondClickTime = System.currentTimeMillis()) - firstClickTime) > 2000) {
+                    Show.toastSHORT(activity, "Nhấn 2 lần để thoát");
+                    firstClickTime = System.currentTimeMillis();
                 }
-                return false;
             }
         });
     }
@@ -313,7 +306,7 @@ public class NavigationDrawer implements View.OnClickListener {
         } else if (id == btn_shares.getId()) {
             sharesClicked();
         } else if (id == btn_log.getId()) {
-            loginButton.performClick();
+            loginClicked();
         } else if (id == btn_brightness.getId()) {
             brightnessClicked();
         } else if (id == btn_viewMode.getId()) {
@@ -321,12 +314,33 @@ public class NavigationDrawer implements View.OnClickListener {
         }
     }
 
+    public void loginClicked() {
+        facebookAPI.createLoginButton(loginButton, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Show.toastSHORT(activity, "Đăng nhập thành công");
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Show.toastSHORT(activity, "Đăng nhập thất bại");
+            }
+        });
+        loginButton.performClick();
+    }
+
     public void sharesClicked() {
-        facebookAPI.share("252252888524492", "Share on your timline");
+        facebookAPI.showShareDialog(new FacebookContent(null, null, null, "https://www.facebook.com/MComics-252252888524492/"));
     }
 
     public void likesClicked() {
-        facebookAPI.like("252252888524492");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/MComics-252252888524492/"));
+        activity.startActivity(browserIntent);
     }
 
     public void brightnessClicked() {
@@ -345,5 +359,9 @@ public class NavigationDrawer implements View.OnClickListener {
 
     public SettingHandle getSettingHandle() {
         return settingHandle;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        facebookAPI.onActivityResult(requestCode, resultCode, data);
     }
 }

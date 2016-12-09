@@ -35,11 +35,12 @@ import vn.edu.poly.mcomics.object.variable.ComicsKind;
 
 public class MainActivity extends AppCompatActivity implements DownloadEvent {
     private FacebookAPI facebookAPI;
+    private NavigationDrawer navigationDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!CheckInternet.check(this)){
+        if (!CheckInternet.check(this)) {
             setContentView(R.layout.view_connect_fail);
             return;
         }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     }
 
     public void createMainFragment(View view, String string) throws JSONException {
-        new NavigationDrawer(this, R.layout.fragment_main, (ViewGroup) view);
+        navigationDrawer = new NavigationDrawer(this, R.layout.fragment_main, (ViewGroup) view);
 
         ArrayList<Comics> comicsArray = new ParserJSON().getComicArray(string);
         createRecyclerView(view, comicsArray);
@@ -163,8 +164,7 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        facebookAPI.onActivityResult(requestCode, resultCode, data);
-
+        navigationDrawer.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

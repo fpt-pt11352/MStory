@@ -28,6 +28,7 @@ public class FacebookHandle {
     private String access_token;
 
     public void getCount(String id, String objectName, final DownloadEvent downloadEvent) {
+        Show.log("getCount.id", id);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/" + id + "/" + objectName,

@@ -10,15 +10,16 @@ import android.widget.Toast;
  */
 
 public final class Show {
-    public static void toastSHORT(Context Context, String text){
-        Toast.makeText(Context, text+"", Toast.LENGTH_SHORT).show();
-    }
-    public static void toastLONG(Context Context, String text){
-        Toast.makeText(Context, text+"", Toast.LENGTH_LONG).show();
+    public static void toastSHORT(Context Context, String text) {
+        Toast.makeText(Context, text + "", Toast.LENGTH_SHORT).show();
     }
 
-    public static void log(String tag, String content){
-        Log.e(tag, content+"");
-}
+    public static void toastLONG(Context Context, String text) {
+        Toast.makeText(Context, text + "", Toast.LENGTH_LONG).show();
+    }
+
+    public static void log(String tag, String content) {
+//        Log.e(tag, content + "");
+    }
 
 }

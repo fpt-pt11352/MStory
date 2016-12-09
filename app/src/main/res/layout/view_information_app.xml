@@ -49,7 +49,8 @@
         android:layout_height="wrap_content"
         android:text="Phiên bản 1.0"
         android:textAlignment="center"
-        android:textSize="15dp"
+        android:textSize="13dp"
+        android:paddingLeft="80dp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -58,14 +59,7 @@
         android:background="#bdfff1" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:text="Phần mềm đọc truyện online miễn phí của chúng tôi, giúp bạn thoả sức đọc truyện online thật dễ dàng, với kho truyện lớn nhất hiện nay cực phong phú và hấp dẫn đươc cập nhật liên tục hằng ngày.
-Những tính năng nổi bật của phần mềm: \nCác truyện online trong phần mềm được cập nhật liên tục và nhanh nhất bởi độ ngũ dịch truyên hùng hậu với chuyên môn cao!\nTìm kiếm truyện, sắp xếp truyện theo: lượt xem, thể loại.\nRất mong nhận được sự ủng hộ và đóng góp ý kiến của bạn đọc để phần mềm ngày càng hoàn thiện hơn."
-        android:textSize="15dp" />
-
-    <TextView
+        android:paddingTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="*Người thực hiện*"

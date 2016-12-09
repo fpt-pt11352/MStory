@@ -169,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements DownloadEvent {
 
     @Override
     public void onBackPressed() {
-        Show.toastSHORT(this, "back");
         super.onBackPressed();
     }
 }

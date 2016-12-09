@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                        android:id="@+id/drawable"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:orientation="vertical">
+    android:id="@+id/drawable"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/root"
@@ -36,7 +36,7 @@
                 android:text="Thiết lập xem"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -44,7 +44,7 @@
                 android:layout_weight="2"
                 android:background="@color/actionBar"
                 android:padding="10dp"
-                android:src="@drawable/configuration"/>
+                android:src="@drawable/configuration" />
         </LinearLayout>
 
         <TableLayout
@@ -61,11 +61,11 @@
 
                 <ImageView
                     style="@style/icon_row"
-                    android:src="@drawable/brightness"/>
+                    android:src="@drawable/brightness" />
 
                 <TextView
                     style="@style/text_row"
-                    android:text="Độ sáng"/>
+                    android:text="Độ sáng" />
             </TableRow>
 
 
@@ -75,11 +75,11 @@
 
                 <ImageView
                     style="@style/icon_row"
-                    android:src="@drawable/horizontal_swipe"/>
+                    android:src="@drawable/horizontal_swipe" />
 
                 <TextView
                     style="@style/text_row"
-                    android:text="Chế độ kéo ngang"/>
+                    android:text="Chế độ kéo ngang" />
             </TableRow>
         </TableLayout>
 
@@ -101,7 +101,7 @@
                 android:text="Tính năng MXH"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -110,7 +110,7 @@
                 android:layout_weight="2"
                 android:background="@color/actionBar"
                 android:padding="10dp"
-                android:src="@drawable/social"/>
+                android:src="@drawable/social" />
         </LinearLayout>
 
         <!--fb table-->
@@ -128,11 +128,11 @@
 
                 <ImageView
                     style="@style/icon_row"
-                    android:src="@drawable/fb_like"/>
+                    android:src="@drawable/fb_like" />
 
                 <TextView
                     style="@style/text_row"
-                    android:text="Thích ứng dụng"/>
+                    android:text="Thích ứng dụng" />
             </TableRow>
 
             <TableRow
@@ -142,11 +142,11 @@
 
                 <ImageView
                     style="@style/icon_row"
-                    android:src="@drawable/share_auto_icon"/>
+                    android:src="@drawable/share_auto_icon" />
 
                 <TextView
                     style="@style/text_row"
-                    android:text="Chia sẻ ứng dụng"/>
+                    android:text="Chia sẻ ứng dụng" />
             </TableRow>
 
             <TableRow
@@ -155,12 +155,12 @@
 
                 <ImageView
                     style="@style/icon_row"
-                    android:src="@drawable/fb_icon"/>
+                    android:src="@drawable/fb_icon" />
 
                 <TextView
                     android:id="@+id/txv_log"
                     style="@style/text_row"
-                    android:text="Đăng nhập"/>
+                    android:text="Đăng nhập" />
             </TableRow>
 
             <!--<TableRow android:visibility="gone">-->
@@ -189,8 +189,7 @@
                 <com.facebook.share.widget.LikeView
                     android:id="@+id/btn_likeview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ></com.facebook.share.widget.LikeView>
+                    android:layout_height="wrap_content"></com.facebook.share.widget.LikeView>
             </TableRow>
 
             <TableRow android:visibility="gone">
@@ -218,7 +217,7 @@
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:padding="5dp"
-                android:src="@drawable/sign_info"/>
+                android:src="@drawable/sign_info" />
 
             <ImageView
                 android:id="@+id/btn_exit"
@@ -228,7 +227,7 @@
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:padding="5dp"
-                android:src="@drawable/shutdown"/>
+                android:src="@drawable/shutdown" />
         </LinearLayout>
 
     </LinearLayout>

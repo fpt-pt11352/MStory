@@ -1,1 +1,0 @@
-các thao tác xử lý ảnh

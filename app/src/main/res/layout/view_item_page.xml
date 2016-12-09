@@ -13,5 +13,4 @@
         android:background="#757575"
         android:src="@drawable/loading" />
 
-
 </android.support.v7.widget.CardView>

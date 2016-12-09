@@ -25,7 +25,6 @@ public class FacebookHandle {
     public static final String COMMENTS = "comments";
     public static final String LIKES = "likes";
     public static final String SHAREDPOSTS = "sharedposts";
-    private String access_token;
 
     public void getCount(String id, String objectName, final DownloadEvent downloadEvent) {
         Show.log("getCount.id", id);

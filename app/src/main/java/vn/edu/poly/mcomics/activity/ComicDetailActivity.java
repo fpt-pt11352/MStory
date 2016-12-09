@@ -3,7 +3,6 @@ package vn.edu.poly.mcomics.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -105,12 +103,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         );
     }
 
-    public void setButtonClickable(TextView like, TextView share, TextView comment, boolean value) {
-        like.setClickable(value);
-        comment.setClickable(value);
-        share.setClickable(value);
-    }
-
     public void mappingsSocial() {
         ll_social = ((LinearLayout) findViewById(R.id.ll_social));
         ll_login = ((LinearLayout) findViewById(R.id.ll_login));
@@ -147,14 +139,20 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         ll_social.setAlpha(1);
         setButtonClickable(like, share, comment, true);
         setLikesButton(fbInfo);
-        setCommentButton(fbInfo);
-        setShareButton(fbInfo);
+        setCommentsButton(fbInfo);
+        setSharesButton(fbInfo);
         setSendComment(fbInfo);
     }
 
     public void disableSocial() {
         ll_social.setAlpha(0.7f);
         setButtonClickable(like, share, comment, false);
+    }
+
+    public void setButtonClickable(TextView like, TextView share, TextView comment, boolean value) {
+        like.setClickable(value);
+        comment.setClickable(value);
+        share.setClickable(value);
     }
 
     public void setLikesButton(final FacebookContent fbInfo) {
@@ -167,7 +165,17 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
         });
     }
 
-    public void setCommentButton(FacebookContent fbInfo) {
+    public void setSharesButton(final FacebookContent fb) {
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.scale));
+                facebookAPI.showShareDialog(fb);
+            }
+        });
+    }
+
+    public void setCommentsButton(FacebookContent fbInfo) {
         facebookAPI.showCount(fbInfo.getFbLongId(), FacebookHandle.COMMENTS, comment);
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,16 +206,6 @@ public class ComicDetailActivity extends AppCompatActivity implements DownloadEv
             public void onClick(View v) {
                 facebookAPI.comment(fbInfo, input.getText().toString(), comment);
                 input.setText("");
-            }
-        });
-    }
-
-    public void setShareButton(final FacebookContent fb) {
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.startAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.scale));
-                facebookAPI.showShareDialog(fb);
             }
         });
     }
